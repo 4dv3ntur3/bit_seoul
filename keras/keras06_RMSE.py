@@ -49,7 +49,8 @@ loss = model.evaluate(x_test, y_test)
 print("loss : ", loss)
 # print("acc : ", acc)
 
-# 원래는 새 값에 대한 새 예측을 찾는 거지만 평가할 때 predict로 값을 만들고 원래 나와야 하는 정답과 비교하는 것
+# 원래는 새 값에 대한 새 예측을 찾는 거지만
+# 평가할 때 predict로 값을 만들고 원래 나와야 하는 정답과 비교하는 것
 
 y_predict = model.predict(x_test)
 print("결과물 : \n : ", y_predict)

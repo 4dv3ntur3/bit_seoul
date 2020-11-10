@@ -9,7 +9,7 @@ from tensorflow.keras.layers import Dense #dense층
 
 
 #2. 모델 구성 (node 쌓기, dense = 단순 DNN 층 구성)
-model = Sequential() #sequential model = model, 순차적 (위->아래)
+model = Sequential() # sequential model = model, 순차적 (위->아래)
 model.add(Dense(3, input_dim=1)) # keras's dense 쌓기, input 차원은 1개  
 
 # 이 중간 노드는 수정 가능(hidden layer) input, output은 불가, hyper parameter tuning
@@ -28,7 +28,7 @@ model.add(Dense(1))
 model.compile(loss='mse', optimizer='adam', metrics=['acc']) # hyper parameter tuning
 
 
-model.fit(x, y, epochs=00, batch_size=1) # hyper parameter tuning
+model.fit(x, y, epochs=100, batch_size=1) # hyper parameter tuning
 
 # 모델 훈련 (정제 데이터 머신에게), 100번, 1개씩 잘라서 작업 1 2 3 4 5 이렇게
 
