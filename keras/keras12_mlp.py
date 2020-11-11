@@ -78,7 +78,7 @@ model.add(Dense(3)) # 출력 =3개
 
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='Adam', metrics=['acc'])
+model.compile(loss='mse', optimizer='adam', metrics=['acc'])
 model.fit(x_train, y_train, epochs=100, validation_split=0.2)
 
 #4. 평가 예측
