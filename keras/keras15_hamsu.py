@@ -33,7 +33,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.6)
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
 
-
+'''
 #dense 층에서는 activaiton default=linear
 model = Sequential()
 #model.add(Dense(100, input_dim=3)) #column개수=3개
@@ -49,18 +49,20 @@ model.add(Dense(1)) # output y=1이므로 노드 1개
 
 #행 무시니까 100, 3 input시 none, 3으로 들어가게 됨
 #연산되는(연결되는) 선 하나가 parameter 1개
+'''
 
-# #activation function
-# #모든 layer마다 존재, dense는 원래 기본적으로 linear지만 지금은 성능 고려해서 relu
-# #relu 쓰면 85점 이상 (평타)
-# input1 = Input(shape=(3,))
-# dense1 = Dense(5, activation='relu')(input1) #상단의 input layer를 사용하겠다
-# dense2 = Dense(4, activation='relu')(dense1) 
-# dense3 = Dense(3, activation='relu')(dense2)
-# output1 = Dense(1)(dense2) #선형회귀이므로 마지막 activation은 linear여야 한다
+# 행 크기 맞춰 줘야 한다
+#activation function
+#모든 layer마다 존재, dense는 원래 기본적으로 linear지만 지금은 성능 고려해서 relu
+#relu 쓰면 85점 이상 (평타)
+input1 = Input(shape=(3,))
+dense1 = Dense(5, activation='relu')(input1) #상단의 input layer를 사용하겠다
+dense2 = Dense(4, activation='relu')(dense1) 
+dense3 = Dense(3, activation='relu')(dense2)
+output1 = Dense(1)(dense3) #선형회귀이므로 마지막 activation은 linear여야 한다
 
-# model = Model(inputs=input1, outputs=output1)
-# #함수형은 일단 쌓고 아래에서 모델 정의
+model = Model(inputs=input1, outputs=output1)
+#함수형은 일단 쌓고 아래에서 모델 정의
 
 
 model.summary()
