@@ -1,4 +1,4 @@
-
+#X1, X2 -> Y1, Y2
 #1. 데이터
 import numpy as np
 
@@ -113,21 +113,25 @@ result = model.evaluate([x1_test, x2_test], [y1_test, y2_test],
 #수치가 5개인 이유: 전체 loss, 각각 두 아웃풋들의 loss 및 mse
 #전체 loss = 각 아웃풋의 loss+mse 합 
 
-# print("result: ", result)
-
-#. RMSE, R2
 
 
-y_predict = model.predict([x1_test, x2_test])
+
+#RMSE, R2
+y_pred_1, y_pred_2 = model.predict([x1_test, x2_test])
+
+from sklearn.metrics import mean_squared_error
 
 from sklearn.metrics import mean_squared_error
 
 def RMSE(y_test, y_predict):
     return np.sqrt(mean_squared_error(y_test, y_predict))
     # predict해서 나온 값과 원래 y_test 값을 비교해서 RMSE로 나오게 하겠다
-print("RMSE: ", RMSE([y1_test, y2_test], y_predict))
+
+print("\nRMSE_1: ", RMSE(y1_test, y_pred_1))
+print("RMSE_2: ", RMSE(y2_test, y_pred_2), "\n")
+
 
 # R2는 함수 제공
 from sklearn.metrics import r2_score
-r2 = r2_score([y1_test, y2_test], y_predict)
-print("R2: ", r2)
+print("R2_1: ", r2_score(y1_test, y_pred_1))
+print("R2_2: ", r2_score(y2_test, y_pred_2), "\n")

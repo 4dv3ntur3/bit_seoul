@@ -1,10 +1,12 @@
+
 #X1, X2 -> Y1
+
+
 #1. 데이터
 import numpy as np
 
 x1 = np.array([range(1, 101), range(711, 811), range(100)])
 x2 = np.array((range(4, 104), range(761, 861), range(100)))
-
 
 y1 = np.array([range(101, 201), range(311, 411), range(100)])
 
@@ -21,37 +23,32 @@ x1_train, x1_test, x2_train, x2_test, y1_train, y1_test = train_test_split(
 )
 
 
-# import random
-# #y3 
-# y3_train = y3[:70]
-# y3_test = y3[70:]
-# random.shuffle(y3_train)
-# random.shuffle(y3_test)
-
-
+######################과제: R2 최대한 증가 (튜닝 잘해 놓기)
 #2. 모델 구성
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Input
 
-#두 모델은 각각 별개. 서로 영향을 끼치지 않는다.
+
 #모델 1
 input1 = Input(shape=(3,))
-dense1_1 = Dense(300, activation='relu', name="dense1_1")(input1) 
+dense1_1 = Dense(100, activation='relu', name="dense1_1")(input1) 
 dense1_2 = Dense(50, activation='relu', name="dense1_2")(dense1_1) 
 dense1_3 = Dense(70, activation='relu', name="dense1_3")(dense1_2)
-output1 = Dense(3)(dense1_3) #y도 100, 3임 
+dense1_4 = Dense(50, activation='relu', name="dense1_4")(dense1_3)
+output1 = Dense(3)(dense1_4) #y도 100, 3임 
 model1 = Model(inputs=input1, outputs=output1)
-
 #model1.summary()
+
+
 
 #모델 2
 input2 = Input(shape=(3,))
-dense2_1 = Dense(300, activation='relu', name="dense2_1")(input2) 
+dense2_1 = Dense(100, activation='relu', name="dense2_1")(input2) 
 dense2_2 = Dense(50, activation='relu', name="dense2_2")(dense2_1) 
 dense2_3 = Dense(70, activation='relu', name="dense2_3")(dense2_2)
-output2 = Dense(3)(dense2_3) 
+dense2_4 = Dense(50, activation='relu', name="dense2_4")(dense2_3)
+output2 = Dense(3)(dense2_4) 
 model2 = Model(inputs=input2, outputs=output2)
-
 #model2.summary()
 
 
@@ -85,21 +82,11 @@ output1 = Dense(300)(middle1)
 output1 = Dense(70)(output1)
 output1 = Dense(3, name="y1")(output1)
 
-# output2 = Dense(15)(middle1)
-# output2_1 = Dense(14)(output2)
-# output2_3 = Dense(11)(output2_1)
-# output2_4 = Dense(3, name="y2")(output2_3)
-
-# output3 = Dense(30)(middle1)
-# output3_1 = Dense(15)(output3)
-# output3_3 = Dense(15)(output3_1)
-# output3_4 = Dense(3, name="y3")(output3_3)
-
 
 #모델 정의
 model = Model(inputs=[input1, input2], outputs=[output1])
 
-model.summary()
+#model.summary()
 
 #concatenate는 연산하지 않는다 
 
@@ -109,7 +96,7 @@ model.compile(loss='mse', optimizer='adam', metrics='mse')
 model.fit(
     [x1_train, x2_train],
     [y1_train],
-    epochs=1000, batch_size=8,
+    epochs=200, batch_size=8,
     validation_split=0.25,
     verbose=1
 )
@@ -142,4 +129,3 @@ r2 = r2_score(y1_test, y_predict)
 print("R2: ", r2)
 
 
-#과제: R2 최대한 증가 (튜닝 잘해 놓기)

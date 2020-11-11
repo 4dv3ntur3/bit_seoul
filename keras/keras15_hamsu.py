@@ -4,7 +4,7 @@
 import numpy as np
 
 x = np.array([range(1, 101), range(711, 811), range(100)])
-y = np.array([range(101, 201)])
+y = np.array(range(101, 201))
 
 
 #데이터 shape 확인

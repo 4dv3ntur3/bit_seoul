@@ -26,13 +26,12 @@ x = x.transpose()
 y = y.transpose()
 '''
 
-
 x = x.transpose()
 y = y.transpose()
 
 
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.9)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7)
 
 
 
@@ -73,7 +72,6 @@ model.add(Dense(5))
 model.add(Dense(7))
 model.add(Dense(9))
 model.add(Dense(3)) # 출력 =3개
-
 
 
 

@@ -135,13 +135,13 @@ def RMSE(y_test, y_predict):
     return np.sqrt(mean_squared_error(y_test, y_predict))
     # predict해서 나온 값과 원래 y_test 값을 비교해서 RMSE로 나오게 하겠다
 
-print("RMSE_1: ", RMSE(y1_test, y_pred_1))
+print("\nRMSE_1: ", RMSE(y1_test, y_pred_1))
 print("RMSE_2: ", RMSE(y2_test, y_pred_2))
-print("RMSE_3: ", RMSE(y3_test, y_pred_3))
+print("RMSE_3: ", RMSE(y3_test, y_pred_3), "\n")
 
 
 # R2는 함수 제공
 from sklearn.metrics import r2_score
 print("R2_1: ", r2_score(y1_test, y_pred_1))
 print("R2_2: ", r2_score(y2_test, y_pred_2))
-print("R2_3: ", r2_score(y3_test, y_pred_3))
+print("R2_3: ", r2_score(y3_test, y_pred_3), "\n")

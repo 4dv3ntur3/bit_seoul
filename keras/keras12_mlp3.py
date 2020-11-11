@@ -8,7 +8,7 @@
 
 import numpy as np
 
-x = np.array([range(1, 101)])
+x = np.array(range(1, 101))
 y = np.array([range(101, 201), range(311, 411), range(100)])
 
 

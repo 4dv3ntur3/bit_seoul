@@ -112,18 +112,22 @@ result = model.evaluate([x1_test], [y1_test, y2_test, y3_test],
 print("result: ", result)
 
 #model에 맞춰서 input을 주어야 한다
-y_predict = model.predict(x1_test)
-print(y_predict)
+y_pred_1, y_pred_2, y_pred_3 = model.predict(x1_test)
 
-# RMSE
+
 from sklearn.metrics import mean_squared_error
 
 def RMSE(y_test, y_predict):
     return np.sqrt(mean_squared_error(y_test, y_predict))
     # predict해서 나온 값과 원래 y_test 값을 비교해서 RMSE로 나오게 하겠다
-print("RMSE: ", RMSE([y1_test, y2_test, y3_test], y_predict))
+
+print("\nRMSE_1: ", RMSE(y1_test, y_pred_1))
+print("RMSE_2: ", RMSE(y2_test, y_pred_2))
+print("RMSE_3: ", RMSE(y3_test, y_pred_3), "\n")
+
 
 # R2는 함수 제공
 from sklearn.metrics import r2_score
-r2 = r2_score([y1_test, y2_test, y3_test], y_predict)
-print("R2: ", r2)
+print("R2_1: ", r2_score(y1_test, y_pred_1))
+print("R2_2: ", r2_score(y2_test, y_pred_2))
+print("R2_3: ", r2_score(y3_test, y_pred_3))
