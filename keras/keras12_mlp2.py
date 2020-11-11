@@ -5,61 +5,26 @@
 import numpy as np
 
 x = np.array([range(1, 101), range(711, 811), range(100)])
-y = np.array([range(101, 201), range(311, 411), range(100)])
+y = np.array([range(101, 201)])
 
 
-'''
-print(x.shape) # (3, 100)
+#데이터 shape 확인
+print(x.shape)
+print(y.shape)
 
-# 과제: (100, 3)으로 변환해야 한다
-
-1) numpy의 transpose() 이용
-x = np.transpose(x)
-y = np.transpose(y)
-
-2) numpy array 객체의 T attribute
-x = x.T
-y = y.T
-
-3) transpose
+#맞춰 주기
 x = x.transpose()
-y = y.transpose()
-'''
-
-
-x = x.transpose()
-y = y.transpose()
+y = y.reshape(100, )
+print(y.shape)
+print(y)
 
 
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.9)
-
-
-
-# slicing
-# x_train = x[:60]
-# y_train = y[:60]
-# x_test = x[60:80]
-# y_test = y[60:80]
-
-
-'''
-#확인용
-
-#for i in range(0, 50):
-# print(i+1, ". ", "x: ", x[i], "\n", "     y: ", y[i])
-
-#print(x)
-#print(y)
-
-#print(x.shape)
-#print(y.shape)
-'''
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.6)
 
 #행 무시, 열 우선
 #data의 특성은 "열"에 의해 결정된다
 #특성=feature=column=열
-
 
 #최종목표: y1, y2, y3 = w1x1 + w2x2 + w3x3 + b (y도 3개)
 
@@ -69,11 +34,12 @@ from tensorflow.keras.layers import Dense #DNN 구조의 Dense모델
 
 model = Sequential()
 model.add(Dense(100, input_dim=3)) #column개수=3개
-model.add(Dense(5))
-model.add(Dense(7))
-model.add(Dense(9))
-model.add(Dense(3)) # 출력 =3개
-
+model.add(Dense(50))
+model.add(Dense(70))
+model.add(Dense(90))
+model.add(Dense(70))
+model.add(Dense(50))
+model.add(Dense(1)) # output y=1이므로 노드 1개
 
 
 
