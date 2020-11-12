@@ -17,35 +17,26 @@ x_input = np.array([50, 60, 70])
 x = x.reshape(13, 3, 1)
 
 #2. 모델
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, LSTM, Input
 
 
-#실습: LSTM 완성
-#예측값: 80
+#함수형 모델
+input1 = Input(shape=(3,1))
+dense1 = LSTM(30, activation='relu')(input1)
+dense2 = Dense(70, activation='relu')(dense1)
+dense3 = Dense(100, activation='relu')(dense2)
+dense4 = Dense(30, activation='relu')(dense3)
+dense5 = Dense(10, activation='relu')(dense4)
+output1 = Dense(1)(dense5)
 
-model = Sequential()
-# model.add(LSTM(200, input_shape=(3, 1)))
-# model.add(Dense(100))
-# model.add(Dense(50))
-# model.add(Dense(30))
-# model.add(Dense(10))
-# model.add(Dense(1))
+model = Model(inputs=input1, outputs=output1)
 
-
-#과제: 80 최근접치
-model.add(LSTM(30, activation='relu', input_shape=(3, 1))) 
-model.add(Dense(70))
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(30))
-model.add(Dense(10))
-model.add(Dense(1))
 
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics='mse')
-model.fit(x, y, epochs=250, batch_size=1)
+model.fit(x, y, epochs=200, batch_size=1)
 
 
 #4. 평가, 예측

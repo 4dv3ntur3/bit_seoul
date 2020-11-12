@@ -11,50 +11,51 @@ y = np.array([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50, 60, 70])
 x_input = np.array([50, 60, 70])
 
 
+
+
 # print(x.shape)
 
 #shape 맞추기
-x = x.reshape(13, 3, 1)
+#LSTM을 사용하기 위해선 reshape가 필수불가결
+#dense층에선 (13, 3)을 각 1열씩이라고 판단 가능하므로 reshape 필요 x
+
+# x = x.reshape(13, 3, 1)
 
 #2. 모델
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 
-
-#실습: LSTM 완성
-#예측값: 80
-
 model = Sequential()
-# model.add(LSTM(200, input_shape=(3, 1)))
-# model.add(Dense(100))
-# model.add(Dense(50))
-# model.add(Dense(30))
-# model.add(Dense(10))
-# model.add(Dense(1))
-
-
-#과제: 80 최근접치
-model.add(LSTM(30, activation='relu', input_shape=(3, 1))) 
-model.add(Dense(70))
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(30))
-model.add(Dense(10))
+model.add(Dense(30, activation='relu', input_dim=3)) #column 개수=3
+model.add(Dense(70, activation='relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(50, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(10, activation='relu'))
 model.add(Dense(1))
 
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics='mse')
-model.fit(x, y, epochs=250, batch_size=1)
+
+
+#early stopping
+from tensorflow.keras.callbacks import EarlyStopping
+
+early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto') #min/max 헷갈릴 때
+model.fit(x, y, epochs=1000, batch_size=1, callbacks=[early_stopping])
 
 
 #4. 평가, 예측
 loss, acc = model.evaluate(x, y, batch_size=1)
 print("\nloss: ", loss)
+
+
+x_input = x_input.reshape(1, 3)
+print(x_input)
 #x_input reshape
-x_input = x_input.reshape(1, 3, 1)
 y_predict = model.predict(x_input)
 
 print(y_predict)
 
-model.summary()
+# model.summary()

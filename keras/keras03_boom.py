@@ -1,3 +1,5 @@
+#2020-11-10
+
 import numpy as np
 
 #1. 데이터
