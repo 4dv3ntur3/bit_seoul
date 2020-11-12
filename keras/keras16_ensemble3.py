@@ -19,12 +19,14 @@ y1 = y1.T
 from sklearn.model_selection import train_test_split
 
 
-#난수 고정 
-import tensorflow as tf
-import random as python_random
-np.random.seed(123)
-python_random.seed(123)
-tf.random.set_seed(1234)
+# 난수 고정 
+# import tensorflow as tf
+# import random as python_random
+# np.random.seed(123)
+# python_random.seed(123)
+# tf.random.set_seed(1234)
+# 30 50 100 50 10
+# 50 70 50
 
 x1_train, x1_test, x2_train, x2_test, y1_train, y1_test = train_test_split(
     x1, x2, y1, shuffle=True, train_size=0.7
@@ -39,7 +41,7 @@ from tensorflow.keras.layers import Dense, Input
 
 #모델 1
 input1 = Input(shape=(3,))
-dense1_1 = Dense(10, activation='relu', name="dense1_1")(input1) 
+dense1_1 = Dense(30, activation='relu', name="dense1_1")(input1) 
 dense1_2 = Dense(50, activation='relu', name="dense1_2")(dense1_1) 
 dense1_3 = Dense(100, activation='relu', name="dense1_3")(dense1_2)
 dense1_4 = Dense(50, activation='relu', name="dense1_4")(dense1_3)
@@ -51,7 +53,7 @@ model1 = Model(inputs=input1, outputs=output1)
 
 #모델 2
 input2 = Input(shape=(3,))
-dense2_1 = Dense(10, activation='relu', name="dense2_1")(input2) 
+dense2_1 = Dense(30, activation='relu', name="dense2_1")(input2) 
 dense2_2 = Dense(50, activation='relu', name="dense2_2")(dense2_1) 
 dense2_3 = Dense(100, activation='relu', name="dense2_3")(dense2_2)
 dense2_4 = Dense(50, activation='relu', name="dense2_4")(dense2_3)
@@ -81,15 +83,17 @@ from tensorflow.keras.layers import Concatenate, concatenate
 #class니까 생성자를
 #Concatenate(axis=1)
 merge1 = Concatenate()([output1, output2])
-middle1 = Dense(30)(merge1)
+middle1 = Dense(50)(merge1)
+middle1 = Dense(70)(middle1)
 middle1 = Dense(50)(middle1)
-middle1 = Dense(30)(middle1)
 
 
 ################ ouput 모델 구성 (분기)
-output1 = Dense(30)(middle1)
-output1 = Dense(50)(output1)
-output1 = Dense(30)(output1)
+output1 = Dense(10)(middle1)
+# output1 = Dense(70)(output1)
+output1 = Dense(100)(output1)
+# output1 = Dense(70)(output1)
+output1 = Dense(10)(middle1)
 output1 = Dense(3, name="y1")(output1)
 
 
