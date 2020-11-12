@@ -9,7 +9,7 @@ y = np.array(range(101, 201))
 from sklearn.model_selection import train_test_split
 # 잘려 나가는 순서 
 x_train, x_test, y_train, y_test = train_test_split(
-x, y, train_size=0.2, test_size=0.7, shuffle=True)
+x, y, train_size=0.7, shuffle=True)
 
 
 

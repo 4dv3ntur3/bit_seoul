@@ -13,8 +13,6 @@ print(y.shape)
 
 #맞춰 주기
 x = x.transpose()
-y = y.reshape(100, )
-
 
 
 from sklearn.model_selection import train_test_split
