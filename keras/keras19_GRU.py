@@ -32,21 +32,22 @@ from tensorflow.keras.layers import Dense, GRU #LSTM도 layer
 #output * (output+input+1)   1 => bias
 
 model = Sequential()
-model.add(GRU(20, activation='relu', input_shape=(3,1))) #이후부터는 동일한 dense층, 넘어가는 노드의 개수가 30개
-model.add(Dense(50)) #default activation = linear
+model.add(GRU(30, activation='relu', input_shape=(3,1))) #이후부터는 동일한 dense층, 넘어가는 노드의 개수가 30개
+model.add(Dense(70)) #default activation = linear
 model.add(Dense(100))
+model.add(Dense(50))
 model.add(Dense(30))
+model.add(Dense(10))
 model.add(Dense(1)) #output: 1개
 
 model.summary()
 
 
 
-'''
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics='mse')
 
-model.fit(x, y, epochs=100, batch_size=1)
+model.fit(x, y, epochs=250, batch_size=1)
 x_input = np.array([5, 6, 7]) #(3, ) -> (1, 3, 1) #LSTM에 들어가려면 맞춰 줘야 
 #데이터 reshape
 x_input = x_input.reshape(1, 3, 1)
@@ -59,7 +60,7 @@ loss, acc = model.evaluate(x, y, batch_size=1)
 
 print("예측값: ", y_predict)
 print("loss: ", loss, "\n", "acc: ", acc)
-'''
+
 
 
                 

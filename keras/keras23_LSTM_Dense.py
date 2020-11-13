@@ -25,6 +25,7 @@ x_input = np.array([50, 60, 70])
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 
+#80.02
 model = Sequential()
 model.add(Dense(30, activation='relu', input_dim=3)) #column 개수=3
 model.add(Dense(70, activation='relu'))
@@ -52,7 +53,6 @@ print("\nloss: ", loss)
 
 
 x_input = x_input.reshape(1, 3)
-print(x_input)
 #x_input reshape
 y_predict = model.predict(x_input)
 

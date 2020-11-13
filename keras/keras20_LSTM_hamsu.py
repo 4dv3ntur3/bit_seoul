@@ -1,5 +1,7 @@
 import numpy as np
 
+
+
 #1. 데이터
 x = np.array([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], 
              [5, 6, 7], [6, 7, 8], [7, 8, 9], [8, 9, 10], 
@@ -26,12 +28,12 @@ input1 = Input(shape=(3,1))
 dense1 = LSTM(30, activation='relu')(input1)
 dense2 = Dense(70, activation='relu')(dense1)
 dense3 = Dense(100, activation='relu')(dense2)
-dense4 = Dense(30, activation='relu')(dense3)
-dense5 = Dense(10, activation='relu')(dense4)
-output1 = Dense(1)(dense5)
+dense4 = Dense(50, activation='relu')(dense3)
+dense5 = Dense(30, activation='relu')(dense4)
+dense6 = Dense(10, activation='relu')(dense5)
+output1 = Dense(1)(dense6)
 
 model = Model(inputs=input1, outputs=output1)
-
 
 
 #3. 컴파일, 훈련

@@ -1,5 +1,8 @@
 import numpy as np
 
+#LSTM layer
+
+
 #1. 데이터
 x = np.array([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], 
              [5, 6, 7], [6, 7, 8], [7, 8, 9], [8, 9, 10], 
@@ -33,14 +36,30 @@ model = Sequential()
 # model.add(Dense(1))
 
 
-#과제: 80 최근접치
-model.add(LSTM(30, activation='relu', input_shape=(3, 1))) 
-model.add(Dense(70))
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(30))
-model.add(Dense(10))
+# ###과제: hyper parameter tuning-80 최근접치
+# model.add(LSTM(30, activation='relu', input_shape=(3, 1))) 
+# model.add(Dense(70, activation='relu'))
+# model.add(Dense(150, activation='relu'))
+# model.add(Dense(200, activation='relu'))
+# model.add(Dense(100, activation='relu'))
+# model.add(Dense(50, activation='relu'))
+# model.add(Dense(10, activation='relu'))
+# model.add(Dense(1))
+
+#80.06
+###과제: hyper parameter tuning-80 최근접치
+model.add(LSTM(200, activation='relu', input_shape=(3, 1))) 
+model.add(Dense(180, activation='relu'))
+model.add(Dense(150, activation='relu'))
+model.add(Dense(130, activation='relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(70, activation='relu'))
+model.add(Dense(30, activation='relu'))
+# model.add(Dense(10, activation='relu'))
 model.add(Dense(1))
+
+
+
 
 
 #3. 컴파일, 훈련
@@ -51,6 +70,8 @@ model.fit(x, y, epochs=250, batch_size=1)
 #4. 평가, 예측
 loss, acc = model.evaluate(x, y, batch_size=1)
 print("\nloss: ", loss)
+
+
 #x_input reshape
 x_input = x_input.reshape(1, 3, 1)
 y_predict = model.predict(x_input)

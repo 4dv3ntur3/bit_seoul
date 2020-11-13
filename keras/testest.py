@@ -4,7 +4,7 @@ from numpy import array
 
 #시계열의 경우 가장 영향을 크게 끼치는 데이터는 근접해 있는 데이터다 
 
-#함수형으로 LSTM 만들어서 앙상블
+#Sequential로 LSTM 만들어서 앙상블
 #X1, X2 -> Y
 
 #1. 데이터
@@ -24,16 +24,26 @@ y = array([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50, 60, 70])
 x1_predict = array([55, 65, 75])
 x2_predict = array([65, 75, 85])
 
-x1 = x1.reshape(13, 3, 1)
-x2 = x2.reshape(13, 3, 1)
 
-x1_predict = x1_predict.reshape(1, 3, 1)
-x2_predict = x2_predict.reshape(1, 3, 1)
+x1 = x1.reshape(13, 3)
+x2 = x2.reshape(13, 3)
+
+x1_predict = x1_predict.reshape(1, 3)
+x2_predict = x2_predict.reshape(1, 3)
+
+
+
 
 #2. 모델 구성
 #import 빠뜨린 거 없이 할 것
 from tensorflow.keras.models import Model, Sequential 
 from tensorflow.keras.layers import Dense, LSTM, Input
+
+# Model = Sequential()
+
+
+
+
 
 #모델 1
 input1 = Input(shape=(3,1))
@@ -73,6 +83,7 @@ output1 = Dense(1)(output1)
 model = Model(inputs=[input1, input2], outputs=output1)
 
 
+
 #3. 컴파일, 훈련
 
 #early stopping
@@ -89,7 +100,7 @@ model.fit(
 )
 
 #4. 평가
-# result = model.evaluate([x1, x2], y)s
+# result = model.evaluate([x1, x2], y)
 
 
 #예측값은 모델에 맞게 넣어주되 predict를 50번 하든 몇 번 하든 원하는 결과만 내면 됨

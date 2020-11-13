@@ -1,4 +1,5 @@
 # 2020-11-12 
+
 # LSTM -> SimpleRNN (용법 같다)
 
 
@@ -42,7 +43,6 @@ model.summary()
 
 
 
-'''
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics='mse')
 
@@ -59,7 +59,7 @@ loss, acc = model.evaluate(x, y, batch_size=1)
 
 print("예측값: ", y_predict)
 print("loss: ", loss, "\n", "acc: ", acc)
-'''
+
 
 
                 

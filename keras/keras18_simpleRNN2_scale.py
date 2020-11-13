@@ -35,7 +35,7 @@ model = Sequential()
 # model.add(Dense(1))
 
 
-#과제: 79까지 맞추기 
+#과제: 80.00809 
 model.add(SimpleRNN(30, activation='relu', input_shape=(3, 1))) 
 model.add(Dense(70))
 model.add(Dense(100))

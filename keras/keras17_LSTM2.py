@@ -1,5 +1,10 @@
 # 2020-11-12 
 
+
+#LSTM layer input_shape=(3,1)    =     input_length=3, input_dim=1
+
+
+
 #1. 데이터
 import numpy as np
 
@@ -25,12 +30,15 @@ print("x.shape: ", x.shape)
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM #LSTM도 layer
 
+#8.01
 model = Sequential()
 # model.add(LSTM(30, input_shape=(3,1))) 
-model.add(LSTM(20, input_length=3, input_dim=1)) # *****
-model.add(Dense(50)) #default activation = linear
-model.add(Dense(100))
-model.add(Dense(20))
+model.add(LSTM(30, activation='relu', input_length=3, input_dim=1)) # *****
+model.add(Dense(50, activation='relu')) #default activation = linear
+model.add(Dense(70, activation='relu'))
+model.add(Dense(110, activation='relu'))
+model.add(Dense(50, activation='relu'))
+model.add(Dense(30, activation='relu'))
 model.add(Dense(1)) #output: 1개
 
 # model.summary()
@@ -46,7 +54,7 @@ model.add(Dense(1)) #output: 1개
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics='mse')
 
-model.fit(x, y, epochs=100, batch_size=1)
+model.fit(x, y, epochs=200, batch_size=1)
 x_input = np.array([5, 6, 7]) #(3, ) -> (1, 3, 1) #LSTM에 들어가려면 맞춰 줘야 
 #데이터 reshape
 x_input = x_input.reshape(1, 3, 1)
@@ -58,7 +66,7 @@ y_predict = model.predict(x_input)
 loss, acc = model.evaluate(x, y, batch_size=1)
 
 print("예측값: ", y_predict)
-print("loss: ", loss, "\n", "acc: ", acc)
+# print("loss: ", loss, "\n")
 
 
 
