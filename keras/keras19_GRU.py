@@ -1,5 +1,6 @@
-# 2020-11-12 
-# LSTM -> SimpleRNN (용법 같다)
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#GRU(Gated Recurrent Unit): 3 gates
 
 
 #1. 데이터

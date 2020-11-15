@@ -1,9 +1,6 @@
 #2020-11-13 (5일차)
-
-#실습: 모델 구성
-#train, test 분리하기 + early_stopping + validation_split
-#predict
-
+#시각화(그래프): matplotlib
+#model.fit의 반환값 
 
 import numpy as np
 
@@ -60,9 +57,9 @@ model = Sequential()
 model.add(LSTM(30, activation='relu', input_length=4, input_dim=1)) # *****
 model.add(Dense(50, activation='relu')) #default activation = linear
 model.add(Dense(70, activation='relu'))
-model.add(Dense(300, activation='relu'))
+model.add(Dense(200, activation='relu'))
 model.add(Dense(50, activation='relu'))
-model.add(Dense(30, activation='relu'))
+model.add(Dense(10, activation='relu'))
 model.add(Dense(1)) #output: 1개
 
 
@@ -70,22 +67,23 @@ model.add(Dense(1)) #output: 1개
 from tensorflow.keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
 
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
-model.fit(
+#model.fit의 반환값 
+history = model.fit(
     x_train,
     y_train,
     callbacks=[early_stopping],
-    validation_split=0.3,
-    epochs=1000, batch_size=10
+    validation_split=0.2,
+    epochs=800, batch_size=10
 )
-
 
 
 #4. 평가, 예측
 
-#101.0
-loss, mse = model.evaluate(x_test, y_test)
+
+
+loss, mse = model.evaluate(x_test, y_test, batch_size=10)
 print(loss, mse)
 
 
@@ -97,5 +95,39 @@ print("예측값: ", y_predict)
 
 
 
+#그래프
+import matplotlib.pyplot as plt
 
+#plt.plot에는 x, y 둘 다 넣어야 함(그래프니까)
+#loss만 넣어 놓는 건 y만 넣어 둔 것임. x=epoch임
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.plot(history.history['mae'])
+plt.plot(history.history['val_mae'])
+
+#축에 명시
+plt.title('loss & mae')
+plt.ylabel('loss, mae')
+plt.xlabel('epoch')
+
+#그래프에 명시
+plt.legend(['train loss', 'val loss', 'train mae', 'val mae'])
+plt.show()
+
+
+
+
+# print("-----------------------------")
+# print(history) #history 자체의 자료형만 알려 줌
+# print("-----------------------------")
+
+# #python_dictionary 자료구조 추가 공부
+# print(history.history.keys()) #loss, metrics, validation_loss, validation_metrics
+
+# print("============================")
+# print(history.history['loss']) #epoch 하나당 값 하나. 몇 번째 epoch에 가장 최적값이 있는지도 확인 가능(원시적)... => 그래프로 확인 가능
+
+# print("============================")
+# print(history.history['val_loss']) 
 

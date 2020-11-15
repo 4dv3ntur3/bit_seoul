@@ -1,4 +1,6 @@
-#2020-11-09
+#2020-11-09 (1일차)
+#기본 코드
+
 
 import numpy as np
 
@@ -18,12 +20,11 @@ model.add(Dense(3, input_dim=1)) #keras's dense 쌓기, input 차원은 1개
 
 #hidden layer
 #hyper parameter tuning 가능(input, output layer는 불가)
-model.add(Dense(500)) #dense 500개
-model.add(Dense(700))
-model.add(Dense(900))
-model.add(Dense(700))
-model.add(Dense(500)) 
-model.add(Dense(300))
+model.add(Dense(30)) #dense 30개
+model.add(Dense(50))
+model.add(Dense(100))
+model.add(Dense(40)) 
+model.add(Dense(10))
 
 #output layer
 model.add(Dense(1)) # =input_dim

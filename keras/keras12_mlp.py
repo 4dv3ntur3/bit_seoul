@@ -1,5 +1,7 @@
-
-# Multi Layer Perceptron
+#2020-11-10 (2일차)
+#Multi Layer Perceptron
+#스칼라, 벡터, 행렬, 텐서 
+#shape 맞추기****
 
 #1. 데이터
 import numpy as np

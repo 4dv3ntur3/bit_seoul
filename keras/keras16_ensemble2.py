@@ -1,4 +1,9 @@
+#2020-11-11 (3일차)
+#앙상블(Ensemble): 모델 합치기
 #X1, X2 -> Y1, Y2, Y3
+
+
+
 #1. 데이터
 import numpy as np
 

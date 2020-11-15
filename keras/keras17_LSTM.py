@@ -1,6 +1,6 @@
-# 2020-11-12 
-
-
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#LSTM Layer:Long Shot-Term Memory Layer
 #LSTM layer Sequential
 
 #1. 데이터

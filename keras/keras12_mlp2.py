@@ -1,5 +1,7 @@
-
-# Multi Layer Perceptron
+#2020-11-11 (3일차)
+#Multi Layer Perceptron
+#data shape 맞추기: 행 무시, 열 우선
+#transpose
 
 #1. 데이터
 import numpy as np

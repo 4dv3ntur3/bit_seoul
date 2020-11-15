@@ -1,4 +1,5 @@
-# Multi Layer Perceptron
+#2020-11-11 (3일차)
+#함수형 모델
 
 #1. 데이터
 import numpy as np

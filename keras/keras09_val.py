@@ -1,3 +1,7 @@
+#2020-11-10 (2일차)
+#검증(validation) 데이터 추가, fit에서 validation_data=( , )
+
+
 import numpy as np
 
 #1. 데이터

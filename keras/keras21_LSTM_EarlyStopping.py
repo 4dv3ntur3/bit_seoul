@@ -1,3 +1,8 @@
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#early stopping: monitor, patience, mode
+
+
 import numpy as np
 
 #1. 데이터

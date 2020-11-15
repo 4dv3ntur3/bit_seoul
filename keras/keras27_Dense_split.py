@@ -1,5 +1,5 @@
-#2020-11-13 
-
+#2020-11-13 (5일차)
+#dense
 
 #실습: 모델 구성
 #train, test 분리하기 + early_stopping + validation_split
@@ -68,8 +68,8 @@ early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
 model.fit(
-    x,
-    y,
+    x_train,
+    y_train,
     callbacks=[early_stopping],
     validation_split=0.3,
     epochs=1000, batch_size=10

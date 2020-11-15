@@ -1,6 +1,5 @@
-#2020-11-13 
-
-#모델 로드
+#2020-11-13 (5일차)
+#모델 로드: 로드한 모델에 지정된 input_shape와 내가 넣을 데이터의 input_shape가 다를 때
 
 import numpy as np
 
@@ -51,21 +50,11 @@ from tensorflow.keras.models import load_model #Sequential 없이도 돌아감! 
 from tensorflow.keras.layers import Dense, LSTM #LSTM도 layer
 
 
-# model = Sequential()
-# model.add(LSTM(100, input_shape=(4, 1)))
-# model.add(Dense(50))
-# model.add(Dense(10))
-# model.add(Dense(1))
-
-# model.add(Dense(1)) #output: 1개
-
-
 
 # 모델 불러오기
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, LSTM, Input
 
-from tensorflow.keras.models import model_from_json
-
-model = load_model('./save/keras26_model.h5')
 
 
 #기존 모델에 커스터마이징하기
@@ -76,22 +65,21 @@ model = load_model('./save/keras26_model.h5')
 
 # model.add(Dense(10, name="king1"))
 
-#input layer
-model.add(LSTM(30, activation='relu', input_length=4, input_dim=1, name="input_layer"))
 
-json_string = model.to_json()
-model = model_from_json(json_string)
+#방법1) custom_objects
+# model = load_model('./save/keras26_model.h5', custom_objects={'input_shape':(4,1)})
+# model.add(Dense(10, activation='relu', name='new1'))
+# model.add(Dense(1, activation='relu', name='new2'))
 
-model.add(Dense(1, name="king2"))
+#방법2) 함수형으로
+#덮어씌우기
+model = load_model('./save/keras26_model.h5')
+input1 = Input(shape=(4, 1))
+dense = model(input1)
+output1 = Dense(1)(dense)
+model = Model(inputs=input1, outputs=output1)
 
-from models import model_from_yaml
-yaml_string = model.to_yaml()
-model = model_from_yaml(yaml_string)
-
-# model.summary() #커스터마이징 할 때마다 돌려서 코드 새로 쓸 순 x
-
-
-
+# model.summary() #커스터마이징 할 때마다 모델 구조 살펴보고, 그대로 코드 베껴오고 추가해서 쓸 순 x
 
 
 
@@ -102,8 +90,8 @@ early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
 model.fit(
-    x,
-    y,
+    x_train,
+    y_train,
     callbacks=[early_stopping],
     validation_split=0.3,
     epochs=1000, batch_size=10

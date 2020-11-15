@@ -1,4 +1,6 @@
-#실습
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#GRU(Gated Recurrent Units): 3 gates
 
 import numpy as np
 

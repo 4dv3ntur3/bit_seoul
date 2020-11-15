@@ -1,6 +1,6 @@
-# 2020-11-12 
-
-
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#LSTM Layer:Long Shot-Term Memory Layer
 #LSTM layer input_shape=(3,1)    =     input_length=3, input_dim=1
 
 

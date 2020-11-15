@@ -1,11 +1,14 @@
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#시계열 데이터의 경우 가장 영향을 크게 끼치는 데이터는 근접해 있는 데이터다 
+
+#함수형으로 LSTM 모델 두 개 만들어서 앙상블
+#X1, X2 -> Y
+
 import numpy as np
 from numpy import array
 
 
-#시계열의 경우 가장 영향을 크게 끼치는 데이터는 근접해 있는 데이터다 
-
-#함수형으로 LSTM 만들어서 앙상블
-#X1, X2 -> Y
 
 #1. 데이터
 x1 = array([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], 

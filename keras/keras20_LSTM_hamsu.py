@@ -1,3 +1,9 @@
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#LSTM 함수형 모델로
+
+
+
 import numpy as np
 
 

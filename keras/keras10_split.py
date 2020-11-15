@@ -1,3 +1,8 @@
+#2020-11-10 (2일차)
+#data slicing
+#주어진 데이터에서 python 리스트 slicing으로 훈련/평가 데이터 분리하기
+
+
 #1. 데이터
 import numpy as np
 

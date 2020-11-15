@@ -1,3 +1,7 @@
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#LSTM vs Dense 
+
 import numpy as np
 
 #1. 데이터

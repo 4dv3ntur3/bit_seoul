@@ -1,9 +1,5 @@
 #2020-11-13 (5일차)
-
-#실습: 모델 구성
-#train, test 분리하기 + early_stopping + validation_split
-#predict
-
+#model.fit의 반환값 = history (dictation 구조)
 
 import numpy as np
 
@@ -72,30 +68,40 @@ early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
 
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
-model.fit(
+#model.fit의 반환값 
+history = model.fit(
     x_train,
     y_train,
     callbacks=[early_stopping],
-    validation_split=0.3,
-    epochs=1000, batch_size=10
+    validation_split=0.2,
+    epochs=7, batch_size=10
 )
 
 
+# #4. 평가, 예측
 
-#4. 평가, 예측
-
-#101.0
-loss, mse = model.evaluate(x_test, y_test)
-print(loss, mse)
-
-
-x_predict = np.array([97, 98, 99, 100])
-x_predict = x_predict.reshape(1, 4, 1)
-
-y_predict = model.predict(x_predict)
-print("예측값: ", y_predict)
+# #101.0
+# loss, mse = model.evaluate(x_test, y_test, batch_size=10)
+# print(loss, mse)
 
 
+# x_predict = np.array([97, 98, 99, 100])
+# x_predict = x_predict.reshape(1, 4, 1)
+
+# y_predict = model.predict(x_predict)
+# print("예측값: ", y_predict)
 
 
+print("-----------------------------")
+print(history) #history 자체의 자료형만 알려 줌
+print("-----------------------------")
+
+#python_dictionary 자료구조 추가 공부
+print(history.history.keys()) #loss, metrics, validation_loss, validation_metrics
+
+print("============================")
+print(history.history['loss']) #epoch 하나당 값 하나. 몇 번째 epoch에 가장 최적값이 있는지도 확인 가능(원시적)... => 그래프로 확인 가능
+
+print("============================")
+print(history.history['val_loss']) 
 

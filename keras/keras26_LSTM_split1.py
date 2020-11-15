@@ -1,6 +1,7 @@
+#2020-11-13 (5일차)
+#split_x 함수 활용하여 data slicing
+
 import numpy as np
-
-
 
 
 
@@ -38,7 +39,7 @@ dataset = split_x(dataset, size)
 
 #[][] 사용하려면 사용법이 기존과 다르다
 #첫 번째 []에서 indexing 후 그 결과를 가지고 다음 []로 indexing
-### 열 먼저 하고 행을 하는 게 낫지 않나?
+### 열 먼저 하고 행으로...?
 
 
 

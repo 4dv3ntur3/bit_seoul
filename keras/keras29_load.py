@@ -1,6 +1,5 @@
-#2020-11-13 
-
-#모델 로드
+#2020-11-13 (5일차)
+#모델 로드: 로드한 모델에 layer 추가할 때는 name parameter도 지정해 주어야 한다 (valueError)
 
 import numpy as np
 
@@ -87,8 +86,8 @@ early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
 model.fit(
-    x,
-    y,
+    x_train,
+    y_train,
     callbacks=[early_stopping],
     validation_split=0.3,
     epochs=1000, batch_size=10

@@ -1,6 +1,6 @@
-
-# Multi Layer Perceptron
-# 실습: train_test_split를 slicing으로 바꿀 것
+#2020-11-11 (3일차)
+#Multi Layer Perceptron
+#실습: train_test_split를 slicing으로 바꿀 것
 
 
 #1. 데이터

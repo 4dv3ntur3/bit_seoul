@@ -1,4 +1,8 @@
-#2020-11-10
+#2020-11-10 (2일차)
+#model.predict() : 예측값
+#accuracy 지표는 (선형)회귀모델에 맞지 않는다
+#모델-회귀, 분류
+
 
 import numpy as np
 

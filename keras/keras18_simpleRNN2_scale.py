@@ -1,4 +1,7 @@
-#실습
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+
+# LSTM -> SimpleRNN (용법 같다)
 
 import numpy as np
 

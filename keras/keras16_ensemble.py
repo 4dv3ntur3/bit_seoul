@@ -1,4 +1,9 @@
+#2020-11-11 (3일차)
+#앙상블(Ensemble): 모델 합치기
 #X1, X2 -> Y1, Y2
+
+
+
 #1. 데이터
 import numpy as np
 
@@ -14,6 +19,8 @@ y2 = np.array([range(501, 601), range(431, 531), range(100, 200)])
 
 x2 = x2.T
 y2 = y2.T
+
+
 
 #data 분리
 from sklearn.model_selection import train_test_split

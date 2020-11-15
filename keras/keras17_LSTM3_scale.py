@@ -1,7 +1,10 @@
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#LSTM Layer:Long Shot-Term Memory Layer
+
+
+
 import numpy as np
-
-#LSTM layer
-
 
 #1. 데이터
 x = np.array([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], 

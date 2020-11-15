@@ -1,3 +1,6 @@
+#2020-11-10 (2일차)
+#RMSE(Root Mean Squared Error): MSE에 루트
+
 import numpy as np
 
 #1. 데이터

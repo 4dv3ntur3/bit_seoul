@@ -1,3 +1,6 @@
+#2020-11-10 (2일차)
+#data slicing
+#train_test_split 두 번 사용해서 validation 데이터까지 분리
 
 #1. 데이터
 import numpy as np
@@ -6,17 +9,18 @@ x = np.array(range(1, 101))
 y = np.array(range(101, 201))
 # weight = 1, bias = 100
 
+
+
 from sklearn.model_selection import train_test_split
 # 잘려 나가는 순서 
 x_train, x_test, y_train, y_test = train_test_split(
 x, y, train_size=0.7, shuffle=True)
 
 
-
 # x_train, x_val, y_train, y_val = train_test_split(
 #     x_train, y_train, train_size=0.6)
 
-# val 슬라이스하지 말고 train, test 나누는 비중 바꿔서 테스트해 보기
+##### val 슬라이스하지 말고 train, test 나누는 비중 바꿔서 테스트해 보기
 # train보다 test를 더 크게 잡으면 어떻게 될까? (성능이)
 # 0.7 0.2 해 보기
 

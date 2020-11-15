@@ -1,3 +1,6 @@
+#2020-11-10 (2일차)
+#validation data 따로 없이 fit에서 validation_split: 자체적으로 훈련 데이터에서 빼서 쓴다
+
 import numpy as np
 
 #1. 데이터

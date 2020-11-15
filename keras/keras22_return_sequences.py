@@ -1,3 +1,8 @@
+#2020-11-12 (4일차)
+#RNN(Recurrent Neural Network): LSTM, SimpleRNN, GRU
+#LSTM layer 2개 이상 쌓기: return_sequences = True
+#LSTM layer에서는 output으로 내보낼 때 한 차원 내려서 내보내기 때문에 다음 layer도 LSTM이라면 3차원으로 맞춰 줘야 한다
+
 import numpy as np
 
 #1. 데이터

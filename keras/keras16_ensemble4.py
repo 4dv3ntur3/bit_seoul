@@ -1,4 +1,8 @@
+#2020-11-11 (3일차)
+#앙상블(Ensemble): 모델 합치기
 #X1 -> Y1, Y2, Y3
+
+
 #1. 데이터
 import numpy as np
 
@@ -9,7 +13,7 @@ y1 = np.array([range(101, 201), range(311, 411), range(100)])
 y2 = np.array([range(501, 601), range(431, 531), range(100, 200)])
 y3 = np.array([range(501, 601), range(431, 531), range(100, 200)])
 
-
+#shape 맞추기
 x1 = x1.T
 y1 = y1.T
 y2 = y2.T
