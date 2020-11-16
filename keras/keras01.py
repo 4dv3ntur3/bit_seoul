@@ -1,3 +1,7 @@
+#2020-11-09 (1일차)
+#기본 코드
+
+
 import numpy as np
 
 #1. 데이터
@@ -8,19 +12,23 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense #dense층
 
 
-#2. 모델 구성 (node 쌓기, dense = 단순 DNN 층 구성)
-model = Sequential() # sequential model = model, 순차적 (위->아래)
-model.add(Dense(3, input_dim=1)) # keras's dense 쌓기, input 차원은 1개  
+#2. 모델 구성 (node 쌓기. dense = 단순 DNN 층 구성)
+model = Sequential() #sequential model: 순차적 (위->아래)
 
-# 이 중간 노드는 수정 가능(hidden layer) input, output은 불가, hyper parameter tuning
-model.add(Dense(500)) # dense 5개 
-model.add(Dense(700))
-model.add(Dense(900))
-model.add(Dense(700))
-model.add(Dense(500)) # dense 3개
-model.add(Dense(300))
+#input layer
+model.add(Dense(3, input_dim=1)) #keras's dense 쌓기, input 차원은 1개  
 
-model.add(Dense(1))
+#hidden layer
+#hyper parameter tuning 가능(input, output layer는 불가)
+model.add(Dense(30)) #dense 30개
+model.add(Dense(50))
+model.add(Dense(100))
+model.add(Dense(40)) 
+model.add(Dense(10))
+
+#output layer
+model.add(Dense(1)) # =input_dim
+
 
 #3. 컴파일, 훈련 
 # # mse  구하는 법 숙지

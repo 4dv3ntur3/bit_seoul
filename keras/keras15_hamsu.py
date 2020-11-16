@@ -1,10 +1,11 @@
-# Multi Layer Perceptron
+#2020-11-11 (3일차)
+#함수형 모델
 
 #1. 데이터
 import numpy as np
 
 x = np.array([range(1, 101), range(711, 811), range(100)])
-y = np.array([range(101, 201)])
+y = np.array(range(101, 201))
 
 
 #데이터 shape 확인
@@ -13,8 +14,6 @@ print(y.shape)
 
 #맞춰 주기
 x = x.transpose()
-y = y.reshape(100, )
-
 
 
 from sklearn.model_selection import train_test_split

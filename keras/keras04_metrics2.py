@@ -1,3 +1,8 @@
+#2020-11-10 (2일차)
+#metrics 두 개 넣어도 돌아간다
+#mae(mean absolute error): 절대값(거리 측정)
+#두 개 이상은 리스트([])로 전달
+
 import numpy as np
 
 #1. 데이터

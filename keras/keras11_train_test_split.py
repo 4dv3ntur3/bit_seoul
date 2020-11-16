@@ -1,3 +1,11 @@
+#2020-11-10 (2일차)
+#data slicing, input_shape
+#주어진 데이터에서 train_test_split으로 훈련/평가 데이터 분리하기
+#input_dim=1  =   input_shape=(1, )
+
+
+
+
 #1. 데이터
 import numpy as np
 

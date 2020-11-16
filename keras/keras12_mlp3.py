@@ -1,14 +1,16 @@
-
-# Multi Layer Perceptron
-
-# 1 -> 3
-
+#2020-11-11 (3일차)
+#Multi Layer Perceptron
+#data shape 맞추기: x와 y의 column 수가 다를 때 
+# x: 1 -> y: 3
 #output layer를 결과랑 맞춰줘야함 (y dims랑)
+
+
+
 #1. 데이터
 
 import numpy as np
 
-x = np.array([range(1, 101)])
+x = np.array(range(1, 101))
 y = np.array([range(101, 201), range(311, 411), range(100)])
 
 

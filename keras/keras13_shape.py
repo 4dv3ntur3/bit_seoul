@@ -1,5 +1,7 @@
-
-# Multi Layer Perceptron
+#2020-11-11 (3일차)
+#data shape: 행 무시, 열 우선
+# x(100, 3) -> y(100, )
+#input_dim=3     = input_shape=(3,)
 
 #1. 데이터
 import numpy as np
