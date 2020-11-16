@@ -45,7 +45,7 @@ dense1_1 = Dense(10, activation='relu', name="dense1_1")(input1)
 dense1_2 = Dense(5, activation='relu', name="dense1_2")(dense1_1) 
 dense1_3 = Dense(7, activation='relu', name="dense1_3")(dense1_2)
 output1 = Dense(3)(dense1_3) #y도 100, 3임 
-model1 = Model(inputs=input1, outputs=output1)
+model1 = Model(inputs=input1, outputs=output1) #이거 주석 처리해도 돌아감
 
 #model1.summary()
 
@@ -55,7 +55,7 @@ dense2_1 = Dense(15, activation='relu', name="dense2_1")(input2)
 dense2_2 = Dense(11, activation='relu', name="dense2_2")(dense2_1) 
 dense2_3 = Dense(3, activation='relu', name="dense2_3")(dense2_2)
 output2 = Dense(3)(dense2_3) 
-model2 = Model(inputs=input2, outputs=output2)
+model2 = Model(inputs=input2, outputs=output2) #이거 주석 처리해도 돌아감
 
 #model2.summary()
 
@@ -77,11 +77,11 @@ from tensorflow.keras.layers import Concatenate, concatenate
 #merge1 = concatenate([output1, output2])
 #class니까 생성자를
 #Concatenate(axis=1)
+
 merge1 = Concatenate()([output1, output2])
 middle1 = Dense(30)(merge1)
 middle1 = Dense(7)(middle1)
 middle1 = Dense(11)(middle1)
-
 
 
 ################ ouput 모델 구성 (분기)
@@ -103,7 +103,7 @@ model.summary()
 #concatenate는 연산하지 않는다 
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics='mse')
+model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 model.fit(
     [x1_train, x2_train],
     [y1_train, y2_train],

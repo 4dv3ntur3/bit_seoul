@@ -29,9 +29,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, GRU #LSTM도 layer
 
 
-#SimpleRNN parameters calculation
-#output * (output+input+1)   1 => bias
-
 model = Sequential()
 model.add(GRU(30, activation='relu', input_shape=(3,1))) #이후부터는 동일한 dense층, 넘어가는 노드의 개수가 30개
 model.add(Dense(70)) #default activation = linear

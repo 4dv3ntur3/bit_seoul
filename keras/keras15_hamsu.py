@@ -17,7 +17,7 @@ x = x.transpose()
 
 
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.6)
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7)
 
 #행 무시, 열 우선
 #data의 특성은 "열"에 의해 결정된다

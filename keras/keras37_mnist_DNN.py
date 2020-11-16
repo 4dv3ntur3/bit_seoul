@@ -72,14 +72,14 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
 
 model = Sequential()
-model.add(Dense(30, activation='relu', input_shape=(28*28,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+model.add(Dense(200, activation='relu', input_shape=(28*28,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activatio n default='relu'
                                         #LSTM의 activation default='tanh'
+model.add(Dense(150, activation='relu'))
+model.add(Dense(110, activation='relu'))
+model.add(Dense(70, activation='relu'))
 model.add(Dense(50, activation='relu'))
-model.add(Dense(120, activation='relu'))
-model.add(Dense(300, activation='relu'))
-model.add(Dense(100, activation='relu'))
-model.add(Dense(30, activation='relu'))
+# model.add(Dense(30, activation='relu'))
 model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
 
@@ -105,8 +105,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', 
               metrics=['accuracy']) #"mean_squared_error" (풀네임도 가능하다)
 
-model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
-          validation_split=0.2)
+model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2)
 
 
 
@@ -131,8 +130,35 @@ y_predict = model.predict(x_predict)
 y_predict = np.argmax(y_predict, axis=1)
 
 
+model.summary()
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
 
-# model.summary()
 
+
+'''
+loss:  0.33469027280807495
+acc:  0.9818999767303467
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense (Dense)                (None, 200)               157000
+_________________________________________________________________
+dense_1 (Dense)              (None, 150)               30150
+_________________________________________________________________
+dense_2 (Dense)              (None, 110)               16610
+_________________________________________________________________
+dense_3 (Dense)              (None, 70)                7770
+_________________________________________________________________
+dense_4 (Dense)              (None, 50)                3550
+_________________________________________________________________
+dense_5 (Dense)              (None, 10)                510
+=================================================================
+Total params: 215,590
+Trainable params: 215,590
+Non-trainable params: 0
+_________________________________________________________________
+예측값:  [4 0 9 1 1 2 4 3 2 7]
+정답:  [4 0 9 1 1 2 4 3 2 7]
+'''
