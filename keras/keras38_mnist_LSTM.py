@@ -1,12 +1,13 @@
-#2020-11-16 (6일차)
-#MNIST -> CNN
-#OneHotEncoding
+#2020-11-17 (7일차)
+#MNIST -> LSTM
+#파일 하단에 결과치 기록할 것(loss, acc)
+#CNN vs DNN vs LSTM
 
-#1)keras
-#keras.utils.to_categorical()
+#epoch가 10회 돌았는데도 acc가 0.1이다 -> 그럼 모델 다시 살펴보기
+#초반에 가파르게 상승해야 함 (너무 미적미적대면 아님)
 
-#2)sklearn
-#from sklearn.preprocessing import OneHotEncoder
+
+#(60000, 28, 28) -> (60000, ?) 행은 건드리면 안 됨 (데이터 개수니까. 어차피 행 무시)
 
 
 import matplotlib.pyplot as plt
@@ -25,7 +26,6 @@ from tensorflow.keras.datasets import mnist #텐서플로우에서 제공해 준
 # print(y_train[1]) #label 
 
 
-
 # plt.imshow(x_train[0], 'gray')
 # plt.show()
 
@@ -40,7 +40,7 @@ from tensorflow.keras.datasets import mnist #텐서플로우에서 제공해 준
 from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
-print(y_train)
+# print(y_train)
 
 
 # print(y_train.shape, y_test.shape)
@@ -51,8 +51,8 @@ print(y_train)
 #60000, 14, 14, 4도 가능하고 60000, 28, 14, 2도 가능
 #LSTM으로도 바꿀 수 있다
 
-x_train = x_train.reshape(60000, 28, 28, 1).astype('float32')/255.
-x_test = x_test.reshape(10000, 28, 28, 1).astype('float32')/255.
+x_train = x_train.reshape(60000, 28, 28).astype('float32')/255.
+x_test = x_test.reshape(10000, 28, 28).astype('float32')/255.
                         #x_test.shape[0], x_test.shape[1] ... 
 
 
@@ -73,25 +73,17 @@ y_answer = y_train[20:30]
 
 #2. 모델
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, LSTM
 
 model = Sequential()
-model.add(Conv2D(30, (2, 2), padding='same', input_shaped=(28, 28, 1))) #padding 주의!
-model.add(Conv2D(50, (2, 2), padding='valid'))
-model.add(Conv2D(120, (3, 3))) #padding default=valid
-model.add(Conv2D(200, (2, 2), strides=2))
-model.add(Conv2D(30, (2, 2)))
-model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
-model.add(Flatten()) 
-model.add(Dense(10, activation='relu')) #flatten하면서 곱하고 dense에서 또 100 곱함 
-                                        #Conv2d의 activation default='relu'
-                                        #LSTM의 activation default='tanh'
-#MaxPooling2D-Flatten:reshape 개념
-
-model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid
+model.add(LSTM(1000, activation='relu', input_shape=(28, 28))) #꼭 28, 28, 1일 필요는 없음 #뭔가 시계열 같은 데이터라고 판단이 되면 몇 개씩 자를지 생각할 수도 있음
+model.add(Dense(500, activation='relu'))
+model.add(Dense(300, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(50, activation='relu'))
+# model.add(Dense(30, activation='relu'))
+model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
-# model.summary()
-
 
 
 
@@ -102,7 +94,7 @@ model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중�
 #tensorboard 
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 
-early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=8, mode='auto') 
 
 #log가 들어갈 폴더='graph'
 #여기까지 해서 graph 폴더 생기고 자료들 들어가 있으면 텐서보드 쓸 준비 ok
@@ -115,8 +107,8 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', 
               metrics=['accuracy']) #"mean_squared_error" (풀네임도 가능하다)
 
-model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
-          validation_split=0.2, callbacks=[early_stopping])
+model.fit(x_train, y_train, epochs=100, batch_size=100, validation_split=0.2,
+                            callbacks=[early_stopping])
 
 
 
@@ -141,25 +133,35 @@ y_predict = model.predict(x_predict)
 y_predict = np.argmax(y_predict, axis=1)
 
 
+model.summary()
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
 
 
-
-# 실습 1. test 데이터를 10개 가져와서 predict 만들 것
-# 비교해서 맞는지 확인하기 
-# OneHotEncoding 돼 있는 y값은 어떻게 하지? -> 원복 
-# print()
-
-# 실습2. 모델: early_stopping 적용, tensorboard도 넣을 것
-
-
-
 '''
-loss:  0.15901727974414825
-acc:  0.9811999797821045
+loss:  0.09111423045396805
+acc:  0.9911999702453613
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+lstm (LSTM)                  (None, 1000)              4116000
+_________________________________________________________________
+dense (Dense)                (None, 500)               500500
+_________________________________________________________________
+dense_1 (Dense)              (None, 300)               150300
+_________________________________________________________________
+dense_2 (Dense)              (None, 200)               60200
+_________________________________________________________________
+dense_3 (Dense)              (None, 50)                10050
+_________________________________________________________________
+dense_4 (Dense)              (None, 10)                510 
+
+=================================================================
+Total params: 4,837,560
+Trainable params: 4,837,560
+Non-trainable params: 0
+_________________________________________________________________
 예측값:  [4 0 9 1 1 2 4 3 2 7]
 정답:  [4 0 9 1 1 2 4 3 2 7]
-PS D:\Study>
-
 '''

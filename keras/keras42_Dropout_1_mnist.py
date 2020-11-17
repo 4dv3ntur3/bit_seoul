@@ -1,12 +1,6 @@
-#2020-11-16 (6일차)
-#MNIST -> CNN
-#OneHotEncoding
+#2020-11-17 (7일차)
+#Dropout
 
-#1)keras
-#keras.utils.to_categorical()
-
-#2)sklearn
-#from sklearn.preprocessing import OneHotEncoder
 
 
 import matplotlib.pyplot as plt
@@ -74,15 +68,23 @@ y_answer = y_train[20:30]
 #2. 모델
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.layers import Dropout
 
 model = Sequential()
-model.add(Conv2D(30, (2, 2), padding='same', input_shaped=(28, 28, 1))) #padding 주의!
+model.add(Conv2D(30, (2, 2), padding='same', input_shape=(28, 28, 1))) #padding 주의!
+model.add(Dropout(0.2)) #20퍼센트 out -> 80퍼센트만 쓰겠다. 단, 과도하게 줘야 잘 나온다면 설계할 때 잘못한 것
 model.add(Conv2D(50, (2, 2), padding='valid'))
 model.add(Conv2D(120, (3, 3))) #padding default=valid
-model.add(Conv2D(200, (2, 2), strides=2))
-model.add(Conv2D(30, (2, 2)))
+model.add(Dropout(0.2)) #20퍼센트 out -> 80퍼센트만 쓰겠다
 model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Conv2D(200, (2, 2), strides=2))
 model.add(Flatten()) 
+#DropOut 확인하려고 추가함
+#DropOut을 하면 연산 자체에는 Dropout이 적용이 되지만 저장값은 원래 값을 그대로 가지고 있다 (즉 전체 parameter 수는 저장하고 있다)
+model.add(Dense(100))
+model.add(Dropout(0.2)) #20퍼센트 out -> 80퍼센트만 쓰겠다
+model.add(Dense(10))
+# model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
 model.add(Dense(10, activation='relu')) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activation default='relu'
                                         #LSTM의 activation default='tanh'
@@ -161,5 +163,4 @@ acc:  0.9811999797821045
 예측값:  [4 0 9 1 1 2 4 3 2 7]
 정답:  [4 0 9 1 1 2 4 3 2 7]
 PS D:\Study>
-
 '''

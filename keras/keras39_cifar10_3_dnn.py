@@ -1,44 +1,29 @@
-#2020-11-16 (6일차)
-#MNIST -> DNN
+#2020-11-17 (7일차)
+#cifar-10 -> DNN
 
+from tensorflow.keras.datasets import cifar10
 
-
-#(60000, 28, 28) -> (60000, ?) 행은 건드리면 안 됨 (데이터 개수니까. 어차피 행 무시)
-
-
+#이미지 분류-> OneHotEncoding
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Conv2D, LSTM
+from tensorflow.keras.layers import Flatten, MaxPooling2D #maxpooling2d는 들어가도 되고 안 들어가도 됨 필수 아님
 import matplotlib.pyplot as plt
 import numpy as np
-from tensorflow.keras.datasets import mnist #텐서플로우에서 제공해 준다(수치로 변환해서 제공)
 
-#train_test_split 할 필요 없이 알아서 나눠 준다
-(x_train, y_train), (x_test, y_test) = mnist.load_data() #괄호 주의
+(x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
-#60000장 * 28pixel * 28pixel
-# print(x_train.shape, x_test.shape) #(60000, 28, 28)(10000, 28, 28)
-# print(y_train.shape, y_test.shape) #(60000, )      (10000,)        : 스칼라
+#데이터 구조 확인
+# print(x_train.shape, x_test.shape) #(50000, 32, 32, 3) (10000, 32, 32, 3)
+# print(y_train.shape, y_test.shape) #(50000, 1) (10000, 1)
 
 
-# print(x_train[0])
-# print(y_train[1]) #label 
-
-
-# plt.imshow(x_train[0], 'gray')
-# plt.show()
-
-
-#8은 2보다 4배의 가치? 3은 1보다 3배의 가치? no
-#One-Hot Encoder
-#y_train: 60000, -> OneHotEncoding : 1 0 0 0 0 0 0 0 0 0 (60000, 10) : 분류가 10개니까 (0~9)
-
+#1. 데이터 전처리
+y_train = to_categorical(y_train)
+y_test = to_categorical(y_test)
 
 
 #1. 데이터 전처리: OneHotEncoding 대상은 Y
-from tensorflow.keras.utils import to_categorical
-y_train = to_categorical(y_train)
-y_test = to_categorical(y_test)
-print(y_train.shape)
-
-
 # print(y_train.shape, y_test.shape)
 # print(y_train[0]) #y_train[0]=5 -> [0. 0. 0. 0. 0. 1. 0. 0. 0. 0.]
 
@@ -47,10 +32,9 @@ print(y_train.shape)
 #60000, 14, 14, 4도 가능하고 60000, 28, 14, 2도 가능
 #LSTM으로도 바꿀 수 있다
 
-x_train = x_train.reshape(60000, 28*28).astype('float32')/255.
-x_test = x_test.reshape(10000, 28*28).astype('float32')/255.
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1]*x_train.shape[2]*3).astype('float32')/255.
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]*x_test.shape[2]*3).astype('float32')/255.
                         #x_test.shape[0], x_test.shape[1] ... 
-
 
 
 
@@ -59,13 +43,10 @@ x_predict = x_train[20:30]
 y_answer = y_train[20:30]
 
 
-
 #CNN에 넣을 수 있는 4차원 reshape + y도 onehotencoding
 #scaler 사용해야: 어떤 게 더 좋을지는 해 봐야 안다
 #지금 이 상황에서 M은 255라는 걸 알고 있음. 그러므로 MinMax에서는 255로 나누면 0~1 사이로 수렴 가능
 
-
-# print(x_train[0]) 
 
 
 #2. 모델
@@ -73,7 +54,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
 
 model = Sequential()
-model.add(Dense(200, activation='relu', input_shape=(28*28,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+model.add(Dense(200, activation='relu', input_shape=(32*32*3,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activatio n default='relu'
                                         #LSTM의 activation default='tanh'
 model.add(Dense(150, activation='relu'))
@@ -134,32 +115,3 @@ y_predict = np.argmax(y_predict, axis=1)
 model.summary()
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
-
-
-
-'''
-loss:  0.33469027280807495
-acc:  0.9818999767303467
-Model: "sequential"
-_________________________________________________________________
-Layer (type)                 Output Shape              Param #
-=================================================================
-dense (Dense)                (None, 200)               157000
-_________________________________________________________________
-dense_1 (Dense)              (None, 150)               30150
-_________________________________________________________________
-dense_2 (Dense)              (None, 110)               16610
-_________________________________________________________________
-dense_3 (Dense)              (None, 70)                7770
-_________________________________________________________________
-dense_4 (Dense)              (None, 50)                3550
-_________________________________________________________________
-dense_5 (Dense)              (None, 10)                510
-=================================================================
-Total params: 215,590
-Trainable params: 215,590
-Non-trainable params: 0
-_________________________________________________________________
-예측값:  [4 0 9 1 1 2 4 3 2 7]
-정답:  [4 0 9 1 1 2 4 3 2 7]
-'''
