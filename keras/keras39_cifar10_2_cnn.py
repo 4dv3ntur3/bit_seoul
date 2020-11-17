@@ -7,7 +7,7 @@ from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Conv2D, LSTM
-from tensorflow.keras.layers import Flatten, MaxPooling2D #maxpooling2d는 들어가도 되고 안 들어가도 됨 필수 아님
+from tensorflow.keras.layers import Flatten, MaxPooling2D, Dropout #maxpooling2d는 들어가도 되고 안 들어가도 됨 필수 아님
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -33,24 +33,34 @@ y_answer = y_train[:10]
 
 #2. 모델
 model = Sequential()
-model.add(Conv2D(256, (3, 3), padding='same', input_shape=(32, 32, 3))) #padding 주의!
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu', input_shape=(32, 32, 3))) #padding 주의!
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
-model.add(Conv2D(64, (2, 2), padding='valid'))
-model.add(Conv2D(128, (3, 3), strides=2)) #padding default=valid
-model.add(Conv2D(70, (2, 2)))
-model.add(Conv2D(30, (2, 2)))
+model.add(Dropout(0.2))
+
+
+model.add(Conv2D(256, (3, 3), padding='same', activation='relu')) #padding default=valid
+model.add(Conv2D(256, (3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+
+model.add(Conv2D(512, (3, 3), padding='same', activation='relu')) #padding default=valid
+model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Dropout(0.5))
 
 
 model.add(Flatten())
-model.add(Dense(100, activation='relu')) 
+model.add(Dense(1024, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(10, activation='softmax')) #ouput 
+
 
 
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping
 
-early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
@@ -63,6 +73,10 @@ model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
 
 #4. 평가, 예측
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+
+print("======cifar10_CNN=======")
+
+model.summary()
 
 
 print("loss: ", loss)
@@ -78,3 +92,18 @@ y_predict = np.argmax(y_predict, axis=1)
 
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
+
+
+'''
+======cifar10_CNN=======
+loss:  1.6214045286178589
+acc:  0.6270999908447266
+예측값:  [6 9 9 4 1 1 2 7 8 3]
+정답:  [6 9 9 4 1 1 2 7 8 3]
+'''
+
+
+
+
+
+

@@ -84,8 +84,11 @@ model.fit(
 
 
 #4. 평가, 예측
-print("======Diabetes_LSTM=====")
 loss, mse = model.evaluate(x_test, y_test, batch_size=10)
+
+print("======Diabetes_LSTM=====")
+model.summary()
+
 print("loss, mse: ", loss, mse)
 
 

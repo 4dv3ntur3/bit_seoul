@@ -44,16 +44,24 @@ from tensorflow.keras.layers import Dense, LSTM, Dropout #LSTM도 layer
 
 
 model = Sequential()
-model.add(Dense(64, activation='relu', input_shape=(x_train.shape[1],))) #default activation = linear
-#hidden_layer 
+model.add(Dense(512, activation='relu', input_shape=(x_train.shape[1],))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+                                        #Conv2d의 activatio n default='relu'
+                                        #LSTM의 activation default='tanh'
+model.add(Dense(256, activation='relu'))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(10, activation='relu'))
 
-
-model.add(Dense(1)) #output: 1개
+#output _ 선형회귀 
+model.add(Dense(1))
 
 
 #3. 컴파일 및 훈련
 from tensorflow.keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=80, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
 
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
@@ -62,14 +70,16 @@ model.fit(
     y_train,
     callbacks=[early_stopping],
     validation_split=0.2,
-    epochs=1000, batch_size=10
+    epochs=100, batch_size=32
 )
 
 
 
 #4. 평가, 예측
+
+loss, mse = model.evaluate(x_test, y_test, batch_size=32)
 print("=====Diabetes_DNN=====")
-loss, mse = model.evaluate(x_test, y_test, batch_size=10)
+model.summary()
 print("loss, mse: ", loss, mse)
 
 
@@ -90,11 +100,10 @@ from sklearn.metrics import r2_score
 print("R2: ", r2_score(y_test, y_pred))
 
 
+
 '''
 =====Diabetes_DNN=====
-14/14 [==============================] - 0s 997us/step - loss: 2620.9963 - mse: 2620.9963
-loss, mse:  2620.996337890625 2620.996337890625
-RMSE:  51.195663476371756
-R2:  0.5373685053319863
-
+loss, mse:  2203.3271484375 2203.326904296875
+RMSE:  46.93960833099381
+R2:  0.5796774924395749
 '''

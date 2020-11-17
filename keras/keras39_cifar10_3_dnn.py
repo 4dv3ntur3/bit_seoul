@@ -94,8 +94,11 @@ model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, call
 #4. 평가, 예측
 #fit에서 쓴 이름과 맞춰 주기 
 
+
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+print("======cifar10_DNN=======")
+model.summary()
 print("loss: ", loss)
 print("acc: ", accuracy)
 
@@ -115,3 +118,5 @@ y_predict = np.argmax(y_predict, axis=1)
 model.summary()
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
+
+model.summary()

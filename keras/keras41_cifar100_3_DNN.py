@@ -78,6 +78,10 @@ model.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.2, cal
 
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+print("======cifar100_DNN=======")
+model.summary()
+
+
 print("loss: ", loss)
 print("acc: ", accuracy)
 

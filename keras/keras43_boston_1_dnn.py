@@ -104,9 +104,11 @@ model.fit(
 
 #4. 평가, 예측
 
-print("=====boston_DNN=====")
 
 loss, mse = model.evaluate(x_test, y_test, batch_size=10)
+
+print("=====boston_DNN=====")
+model.summary()
 print("loss, mse: ", loss, mse)
 
 
@@ -125,3 +127,13 @@ print("RMSE: ", RMSE(y_test, y_pred))
 # R2는 함수 제공
 from sklearn.metrics import r2_score
 print("R2: ", r2_score(y_test, y_pred))
+
+
+'''
+=====boston_DNN=====
+ 2/16 [==>...........................] - ETA: 0s - loss: 6.4213 - mse: 6.4213WARNING:tensorflow:Callbacks method `on_test_batch_end` is slow compared to the batch time (batch time: 0.0024s vs `on_test_batch_end` time: 0.0430s). Check your callbacks.
+16/16 [==============================] - 0s 11ms/step - loss: 15.3194 - mse: 15.3194
+loss, mse:  15.3193941116333 15.3193941116333
+RMSE:  3.9139995979389206
+R2:  0.8172744721294422
+'''

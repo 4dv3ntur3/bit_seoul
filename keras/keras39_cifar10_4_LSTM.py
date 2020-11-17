@@ -107,6 +107,9 @@ model.fit(x_train, y_train,
 
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+print("======cifar-10_LSTM=======")
+model.summary()
+
 print("loss: ", loss)
 print("acc: ", accuracy)
 

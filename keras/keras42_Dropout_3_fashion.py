@@ -71,9 +71,11 @@ model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
 
 
 #4. 평가, 예측
-print("====Dropout_fasion====")
 
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+
+print("====Dropout_fasion====")
+model.summary()
 
 print("loss: ", loss)
 print("acc: ", accuracy)

@@ -72,6 +72,8 @@ model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
 #4. 평가, 예측
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+print("=======fashion_cnn=======")
+model.summary()
 print("loss: ", loss)
 print("acc: ", accuracy)
 
@@ -85,3 +87,12 @@ y_predict = np.argmax(y_predict, axis=1)
 
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
+
+
+'''
+=======fashion_cnn=======
+loss:  0.43879228830337524
+acc:  0.850600004196167
+예측값:  [9 0 0 3 1 2 7 4 5 5]
+정답:  [9 0 0 3 0 2 7 2 5 5]
+'''

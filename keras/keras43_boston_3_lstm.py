@@ -111,7 +111,7 @@ loss, mse = model.evaluate(x_test, y_test, batch_size=10)
 
 
 print("====Boston_lstm====")
-
+model.summary()
 print("loss, mse: ", loss, mse)
 
 
