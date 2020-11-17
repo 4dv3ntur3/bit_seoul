@@ -1,5 +1,5 @@
 #2020-11-17 (7일차)
-#Boston의 집값을 예측하는 예제 -> 회귀모델(딱 떨어지지 x)
+#Boston -> CNN
 #사이킷런의 dataset
 
 '''
@@ -58,29 +58,37 @@ scaler.fit(x_train)
 #train
 
 x_train = scaler.transform(x_train)
+x_test = scaler.transform(x_test)
+
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1, 1)
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], 1, 1)
 
 
 
-x_pred = x_test[50:60]
-y_answer = y_test[50:60]
 
 # x_pred = scaler.transform(x_pred)
 
 
 #2. 모델 구성
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Dropout #LSTM도 layer
+from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv2D, MaxPooling2D, Flatten #LSTM도 layer
+
 
 
 model = Sequential()
-model.add(Dense(300, activation='relu', input_shape=(13,))) #default activation = linear
-model.add(Dropout(0.2))
-model.add(Dense(90, activation='relu'))
-model.add(Dense(100, activation='relu'))
-model.add(Dense(150, activation='relu'))
-model.add(Dense(50, activation='relu'))
-model.add(Dense(10, activation='relu'))
-model.add(Dense(1)) #output: 1개
+model.add(Conv2D(100, (2, 2), padding='same', input_shape=(x_train.shape[1], 1, 1))) #padding 주의!
+model.add(Conv2D(70, (2, 2), padding='same'))
+model.add(Conv2D(100, (2, 2), padding='same'))
+model.add(Conv2D(30, (2, 2), padding='same')) #padding default=valid
+# model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Conv2D(10, (2, 2), padding='same'))
+# model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Flatten())
+model.add(Dense(50, activation='relu')) #flatten하면서 곱하고 dense에서 또 100 곱함 
+                                        #Conv2d의 activation default='relu'
+                                        #LSTM의 activation default='tanh'
+model.add(Dense(200, activation='relu'))
+model.add(Dense(1)) #ouput 맞춰 줘야 
 
 
 
@@ -96,30 +104,37 @@ model.fit(
     y_train,
     callbacks=[early_stopping],
     validation_split=0.2,
-    epochs=1000, batch_size=10
+    epochs=1, batch_size=10
 )
 
 
-
 #4. 평가, 예측
+print("=====Boston_CNN=====")
 
-loss, mse = model.evaluate(x_test, y_test)
+loss, mse = model.evaluate(x_test, y_test, batch_size=10)
 print("loss, mse: ", loss, mse)
 
 
-y_pred = model.predict(x_pred)
+y_pred = model.predict(x_test)
 
 
 #RMSE
 from sklearn.metrics import mean_squared_error
 
 def RMSE(y_test, y_predict):
-    return np.sqrt(mean_squared_error(y_test, y_predict))
+    return np.sqrt(mean_squared_error(y_test, y_pred))
     # predict해서 나온 값과 원래 y_test 값을 비교해서 RMSE로 나오게 하겠다
-
-print("RMSE: ", RMSE(y_pred, y_answer))
+print("RMSE: ", RMSE(y_test, y_pred))
 
 
 # R2는 함수 제공
 from sklearn.metrics import r2_score
-print("R2: ", r2_score(y_pred, y_answer))
+print("R2: ", r2_score(y_test, y_pred))
+
+model.summary()
+
+'''
+loss, mse:  12.789802551269531 12.789802551269531
+RMSE:  3.5762830717724015
+R2:  0.850157757716277
+'''
