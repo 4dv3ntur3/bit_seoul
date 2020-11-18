@@ -1,111 +1,72 @@
 import numpy as np
-from numpy import array
-
-
-#시계열의 경우 가장 영향을 크게 끼치는 데이터는 근접해 있는 데이터다 
-
-#Sequential로 LSTM 만들어서 앙상블
-#X1, X2 -> Y
-
-#1. 데이터
-x1 = array([[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], 
-           [5, 6, 7], [6, 7, 8], [7, 8, 9], [8, 9, 10],
-           [9, 10, 11], [10, 11, 12],
-           [20, 30, 40], [30, 40, 50], [40, 50, 60]])
-
-
-x2 = array([[10, 20, 30], [20, 30, 40], [30, 40, 50], [40, 50, 60], 
-           [50, 60, 70], [60, 70, 80], [70, 80, 90], [80, 90, 100],
-           [90, 100, 110], [100, 110, 120],
-           [2, 3, 4], [3, 4, 5], [4, 5, 6]])
-
-y = array([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 50, 60, 70])
-
-x1_predict = array([55, 65, 75])
-x2_predict = array([65, 75, 85])
-
-
-x1 = x1.reshape(13, 3)
-x2 = x2.reshape(13, 3)
-
-x1_predict = x1_predict.reshape(1, 3)
-x2_predict = x2_predict.reshape(1, 3)
-
-
-
-
-#2. 모델 구성
-#import 빠뜨린 거 없이 할 것
-from tensorflow.keras.models import Model, Sequential 
-from tensorflow.keras.layers import Dense, LSTM, Input
-
-# Model = Sequential()
-
-
-
-
-
-#모델 1
-input1 = Input(shape=(3,1))
-dense1_1 = LSTM(200, activation='relu')(input1)
-dense1_2 = Dense(180, activation='relu')(dense1_1)
-dense1_3 = Dense(150, activation='relu')(dense1_2)
-dense1_4 = Dense(30, activation='relu')(dense1_3)
-dense1_5 = Dense(10, activation='relu')(dense1_4)
-output1 = Dense(1)(dense1_5)
-model1 = Model(inputs=input1, outputs=output1)
-
-
-
-#85.07, 95.53
-#모델2
-input2 = Input(shape=(3,1))
-dense2_1 = LSTM(200, activation='relu')(input2)
-dense2_2 = Dense(180, activation='relu')(dense2_1)
-dense2_3 = Dense(150, activation='relu')(dense2_2)
-dense2_4 = Dense(30, activation='relu')(dense2_3)
-dense2_5 = Dense(10, activation='relu')(dense2_4)
-output2 = Dense(1)(dense2_5)
-model2 = Model(inputs=input2, outputs=output2)
-
-
-#병합 
-from tensorflow.keras.layers import Concatenate, concatenate
-
-merge1 = Concatenate()([output1, output2])
-middle1 = Dense(30)(merge1)
-middle1 = Dense(70)(middle1)
-output1 = Dense(200)(middle1)
-output1 = Dense(50)(output1)
-output1 = Dense(30)(output1)
-output1 = Dense(1)(output1)
-
-model = Model(inputs=[input1, input2], outputs=output1)
-
-
-
-#3. 컴파일, 훈련
-
-#early stopping
+from sklearn.datasets import load_iris
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv2D, Flatten
 from tensorflow.keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
+from tensorflow.keras.utils import to_categorical
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
 
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])
-
-model.fit(
-    [x1, x2],
-    y,
-    callbacks=[early_stopping],
-    epochs=1000, batch_size=1
-)
-
-#4. 평가
-# result = model.evaluate([x1, x2], y)
+dataset=load_iris()
+x=dataset.data
+y=dataset.target
+# print(x)
+# print(x.shape, y.shape) #(150, 4) (150,)
 
 
-#예측값은 모델에 맞게 넣어주되 predict를 50번 하든 몇 번 하든 원하는 결과만 내면 됨
-y_pred_1 = model.predict([x1_predict, x2_predict])
-y_pred_2 = model.predict([x2_predict, x1_predict])
 
-print(y_pred_1)
-print(y_pred_2)
+x_train, x_test, y_train, y_test=train_test_split(x, y, test_size=0.2)
+
+
+y_train=to_categorical(y_train) 
+y_test=to_categorical(y_test)
+
+scaler=StandardScaler()
+scaler.fit(x_train)
+x_train=scaler.transform(x_train)
+x_test=scaler.transform(x_test)
+
+
+x_train=x_train.reshape(x_train.shape[0], x_train.shape[1],1)
+x_test=x_test.reshape(x_test.shape[0],x_test.shape[1],1)
+
+model=Sequential()
+model.add(LSTM(80, activation='relu', input_shape=(4, 1)))
+model.add(Dense(150, activation='relu'))
+model.add(Dropout(0.1))
+model.add(Dense(350, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(700, activation='relu'))
+model.add(Dense(1000, activation='relu'))
+model.add(Dropout(0.3))
+model.add(Dense(480, activation='relu'))
+model.add(Dropout(0.4))
+model.add(Dense(280, activation='relu'))
+model.add(Dense(80))
+model.add(Dense(30))
+model.add(Dense(3, activation='softmax'))
+
+
+model.summary()
+model.save("./save/keras45_lstm.h5")
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
+es=EarlyStopping(monitor='loss', patience=50, mode='auto')
+# to_hist=TensorBoard(log_dir='graph', histogram_freq=0, write_graph=True, write_images=True)
+
+model.fit(x_train, y_train, epochs=10000, batch_size=1, validation_split=0.2, callbacks=[es])
+
+#4. 평가, 예측
+loss, accuracy=model.evaluate(x_test, y_test, batch_size=1)
+
+print('loss : ', loss)
+print('accuracy : ', accuracy)
+
+
+
+y_predict=model.predict(x_test)
+y_predict=np.argmax(y_predict, axis=1)
+y_actually=np.argmax(y_test, axis=1)
+print('실제값 : ', y_actually)
+print('예측값 : ', y_predict)
