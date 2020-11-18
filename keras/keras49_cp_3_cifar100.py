@@ -1,5 +1,5 @@
 #2020-11-18 (8일차)
-#cifar-100 -> CNN + ModelCheckPoint
+#cifar-100 -> CNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
 #color이므로 channel=3
 
 from tensorflow.keras.datasets import cifar100

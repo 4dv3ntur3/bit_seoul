@@ -1,5 +1,5 @@
 #2020-11-18 (8일차)
-#Boston -> DNN + ModelCheckPoint
+#Boston -> DNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
 #사이킷런의 dataset
 
 '''

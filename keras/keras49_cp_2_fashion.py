@@ -1,5 +1,5 @@
 #2020-11-18 (8일차)
-#fashon_mnist -> CNN + ModelCheckPoint
+#fashon_mnist -> CNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
 #흑백
 
 

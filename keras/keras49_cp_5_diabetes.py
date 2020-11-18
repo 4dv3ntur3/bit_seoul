@@ -1,5 +1,5 @@
 #2020-11-18 (8일차)
-#diabetes -> DNN + ModelCheckPoint
+#diabetes -> DNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
 #사이킷런의 데이터셋 load_diabetes
 
 
