@@ -9,16 +9,17 @@ from tensorflow.keras.utils import to_categorical
 
 import numpy as np
 
-
+#1. 데이터
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 
 
-#1. 데이터 전처리
+#전처리
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
 
 x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1).astype('float32')/255.
 x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1).astype('float32')/255.
+
 
 
 
