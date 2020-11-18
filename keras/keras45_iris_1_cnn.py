@@ -1,6 +1,6 @@
 #2020-11-18 (8일차)
-#다중분류
-#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터 -> CNN
+#iris -> CNN
+#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터, 다중분류
 #x column=4 y label:1
 
 import numpy as np
@@ -16,7 +16,6 @@ from tensorflow.keras.layers import Flatten, MaxPooling2D, Dropout
 #1. 데이터 
 
 #데이터 구조 확인
-
 dataset = load_iris() #data(X)와 target(Y)으로 구분되어 있다
 x = dataset.data
 y = dataset.target
