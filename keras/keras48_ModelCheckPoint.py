@@ -1,5 +1,5 @@
 #2020-11-18 (8일차)
-#MNIST -> CNN: save fit 이전 model / weights / checkpoints
+#MNIST -> CNN: checkpoints / model.fit() 이후 model.save() / model.save_weights() 
 #가장 좋았던 순간 저장
 
 
