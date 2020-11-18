@@ -1,5 +1,5 @@
 #2020-11-16 (6일차)
-#손글씨 데이터 
+#MNIST: 손글씨 데이터 
 #One Hot Encoding: sklearn, tensorflow.keras
 
 import matplotlib.pyplot as plt
