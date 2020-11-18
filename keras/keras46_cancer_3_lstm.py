@@ -1,8 +1,7 @@
 #2020-11-18 (8일차)
 #load_breast_cancer -> LSTM
-#유방암 데이터 -> 걸렸는지 / 안 걸렸는지 
+#유방암 데이터 -> 걸렸는지 / 안 걸렸는지: 2진 분류
 #Classes 2
-#2진 분류
 
 #sigmoid(relu, softmax 이전에 나왔던 것) - MinMaxScaler와 유사
 # 함수값이 (0, 1)로 제한된다.
