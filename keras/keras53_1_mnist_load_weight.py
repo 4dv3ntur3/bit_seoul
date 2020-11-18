@@ -5,11 +5,11 @@
 import numpy as np
 from tensorflow.keras.datasets import mnist 
 
-
+#1. 데이터 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
 
-#1. 데이터 전처리: OneHotEncoding 대상은 Y
+#전처리: OneHotEncoding 대상은 Y
 from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
