@@ -1,6 +1,6 @@
 #2020-11-16 (6일차)
 #MNIST -> CNN
-#OneHotEncoding
+#One Hot Encoding
 
 #1)keras
 #keras.utils.to_categorical()
