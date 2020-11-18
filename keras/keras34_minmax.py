@@ -71,7 +71,6 @@ scaler = MinMaxScaler()
 
 
 
-
 ######### 03. Robust
 # Nomalizer는 uclidian의 길이가 1이 되도록 데이터 포인트를 조정 ==> 각도가 많이 중요할 때 사용
 # RobustScaler는 특성들이 같은 스케일을 갖게 되지만 평균대신 중앙값을 사용 ==> 극단값에 영향을 받지 않음
