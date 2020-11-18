@@ -1,7 +1,7 @@
 #2020-11-18 (8일차)
-#model save & load 
+#model_load()
 #fit 이전에 save: 모델만
-#fit 이후에 save: 모델 + 가중치까지 
+
 
 
 
