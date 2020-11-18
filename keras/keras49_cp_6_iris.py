@@ -1,6 +1,6 @@
 #2020-11-18 (8일차)
-#다중분류
-#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터 -> CNN + ModelCheckPoint
+#load_iris() -> CNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
+#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터 -> 다중분류
 #x column=4 y label:1
 
 import numpy as np
