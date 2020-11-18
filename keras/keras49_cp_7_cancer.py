@@ -1,5 +1,5 @@
 #2020-11-18 (8일차)
-#load_breast_cancer -> DNN + ModelCheckPoint
+#load_breast_cancer -> DNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
 #유방암 데이터 -> 걸렸는지 / 안 걸렸는지 -> DNN
 #Classes 2
 
@@ -23,13 +23,7 @@
 
 
 
-
-
-
-
 import numpy as np
-from sklearn.datasets import load_iris
-
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Conv2D, LSTM
