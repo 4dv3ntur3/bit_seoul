@@ -8,11 +8,11 @@ from tensorflow.keras.datasets import cifar100
 from tensorflow.keras.utils import to_categorical
 import numpy as np
 
-
+#1. 데이터
 (x_train, y_train), (x_test, y_test) = cifar100.load_data()
 
 
-#1. 데이터 전처리
+#전처리
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
 
