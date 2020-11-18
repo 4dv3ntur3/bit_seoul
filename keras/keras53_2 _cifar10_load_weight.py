@@ -7,10 +7,11 @@
 import numpy as np
 from tensorflow.keras.datasets import cifar10
 
+#1. 데이터
 (x_train, y_train), (x_test, y_test) = cifar10.load_data() #괄호 주의
 
 
-#1. 데이터 전처리: OneHotEncoding 대상은 Y
+#전처리: OneHotEncoding 대상은 Y
 from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
@@ -24,8 +25,8 @@ x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 3).as
 
 from tensorflow.keras.models import load_model
 ############# 1. load_model (fit 이후 save 모델) ##############
-#3. 컴파일, 훈련
 
+#3. 컴파일, 훈련
 model1 = load_model('./save/cifar10_cnn_model.h5')
 
 #4. 평가, 예측
@@ -40,7 +41,6 @@ print("accuracy : ", result1[1])
 model2 = load_model('./model/cifar-10_CNN-61-0.6488.hdf5')
 
 #4. 평가, 예측
-
 result2 = model2.evaluate(x_test, y_test, batch_size=32)
 print("=======checkpoint 저장=========")
 print("loss : ", result2[0])
