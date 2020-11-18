@@ -1,6 +1,7 @@
 #2020-11-17 (7일차)
-#Dropout 추가
 #cifar-10 -> CNN
+#Dropout 추가
+
 
 from tensorflow.keras.datasets import cifar10
 
