@@ -1,0 +1,154 @@
+#2020-11-18 (8일차)
+#fashon_mnist -> CNN + ModelCheckPoint
+#흑백
+
+
+from tensorflow.keras.datasets import fashion_mnist
+
+#이미지 분류-> OneHotEncoding
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Conv2D, LSTM
+from tensorflow.keras.layers import Flatten, MaxPooling2D #maxpooling2d는 들어가도 되고 안 들어가도 됨 필수 아님
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+
+# print(x_train[0])
+# print("y_train[0]: ", y_train[0])
+
+#데이터 구조 확인
+print(x_train.shape, x_test.shape) #(60000, 28, 28) (10000, 28, 28)        
+print(y_train.shape, y_test.shape) #(60000,) (10000,)
+
+
+#1. 데이터 전처리
+y_train = to_categorical(y_train)
+y_test = to_categorical(y_test)
+# print(y_test)
+
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2], 1).astype('float32')/255.
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2], 1).astype('float32')/255.
+
+
+# x_predict = x_train[:10]
+# y_answer = y_train[:10]
+
+
+#2. 모델
+model = Sequential()
+model.add(Conv2D(200, (3, 3), padding='same', input_shape=(x_train.shape[1], x_train.shape[2], 1))) #padding 주의!
+model.add(Conv2D(180, (2, 2), padding='valid'))
+model.add(Conv2D(100, (3, 3), strides=2)) #padding default=valid
+model.add(Conv2D(50, (2, 2)))
+model.add(Conv2D(30, (2, 2)))
+model.add(Conv2D(10, (3, 3)))
+model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Flatten()) 
+model.add(Dense(10, activation='relu')) #flatten하면서 곱하고 dense에서 또 100 곱함 
+                                        #Conv2d의 activation default='relu'
+                                        #LSTM의 activation default='tanh'
+# model.add(Dense(50, activation='relu'))
+model.add(Dense(10, activation='softmax')) #label: 0~9 (항상 dataset label 확인)
+
+
+
+
+#3. 컴파일, 훈련
+
+# modelpath = './model/{epoch:02d}-{val_loss:.4f}.hdf5' 
+
+
+
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
+
+# cp = ModelCheckpoint(filepath=modelpath, 
+#                      monitor='val_loss', 
+#                      save_best_only=True, 
+#                      mode='auto'
+# )
+
+model.compile(loss='categorical_crossentropy',
+              optimizer='adam',
+              metrics=['accuracy'])
+
+hist = model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
+          validation_split=0.2, callbacks=[early_stopping])
+
+
+#모델+가중치
+model.save('./save/fashion_cnn_model_weights.h5')
+model.save_weights('./save/fashion_cnn_weights.h5')
+
+#4. 평가, 예측
+result = model.evaluate(x_test, y_test, batch_size=32)
+
+print("=======fashion_cnn=======")
+model.summary()
+print("loss: ", result[0])
+print("acc: ", result[1])
+
+
+
+
+# #정답
+# y_answer = np.argmax(y_answer, axis=1)
+
+# #예측값
+# y_predict = model.predict(x_test)
+# y_predict = np.argmax(y_predict, axis=1)
+
+# print("예측값: ", y_predict)
+# print("정답: ", y_test)
+
+
+'''
+'''
+
+
+
+'''
+=======fashion_cnn=======
+loss:  0.43879228830337524
+acc:  0.850600004196167
+예측값:  [9 0 0 3 1 2 7 4 5 5]
+정답:  [9 0 0 3 0 2 7 2 5 5]
+
+
+
+=======fashion_cnn=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+conv2d (Conv2D)              (None, 28, 28, 200)       2000
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 27, 27, 180)       144180
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 13, 13, 100)       162100
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 12, 12, 50)        20050
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 11, 11, 30)        6030
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 9, 9, 10)          2710
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 4, 4, 10)          0
+_________________________________________________________________
+flatten (Flatten)            (None, 160)               0
+_________________________________________________________________
+dense (Dense)                (None, 10)                1610
+_________________________________________________________________
+dense_1 (Dense)              (None, 10)                110
+=================================================================
+Total params: 338,790
+Trainable params: 338,790
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.3941965699195862
+acc:  0.8639000058174133
+'''

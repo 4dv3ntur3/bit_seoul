@@ -1,6 +1,6 @@
 #2020-11-18 (8일차)
 #다중분류
-#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터
+#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터 -> LSTM
 #x column=4 y label:1
 
 import numpy as np
@@ -10,6 +10,7 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Conv2D, LSTM
 from tensorflow.keras.layers import Flatten, MaxPooling2D, Dropout
+
 
 
 
@@ -34,9 +35,16 @@ x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size=0.7
 )
 
+from sklearn.preprocessing import MinMaxScaler
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1).astype('float32')/255.
-x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1).astype('float32')/255.
+scaler=MinMaxScaler()
+scaler.fit(x_train)
+x_train=scaler.transform(x_train)
+x_test=scaler.transform(x_test)
+
+
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], 1)
+x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1)
 
 # print(x_train.shape)
 
@@ -44,9 +52,6 @@ x_test = x_test.reshape(x_test.shape[0], x_train.shape[1], 1).astype('float32')/
 #OneHotEncoding (다중분류)
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
-
-x_predict = x_train[:10]
-y_answer = y_train[:10]
 
 
 #2. 모델 구성
@@ -58,8 +63,8 @@ model = Sequential()
 model.add(LSTM(64, activation='relu', input_shape=(x_train.shape[1], x_train.shape[2]))) #꼭 28, 28, 1일 필요는 없음 #뭔가 시계열 같은 데이터라고 판단이 되면 몇 개씩 자를지 생각할 수도 있음
 model.add(Dense(128, activation='relu'))
 model.add(Dense(300, activation='relu'))
-model.add(Dropout(0.2))
 model.add(Dense(750, activation='relu'))
+model.add(Dropout(0.2))
 model.add(Dense(1024, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(512, activation='relu'))
@@ -76,7 +81,7 @@ model.add(Dense(3, activation='softmax')) #softmax** : 2 이상 분류(다중분
 
 #3. 컴파일 및 훈련
 from tensorflow.keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=100, mode='auto')
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
@@ -85,7 +90,7 @@ model.fit(
     y_train,
     callbacks=[early_stopping],
     validation_split=0.2,
-    epochs=100, batch_size=1
+    epochs=1000, batch_size=1
 )
 
 
@@ -102,11 +107,128 @@ print("acc: ", accuracy)
 
 
 #정답
-y_answer = np.argmax(y_answer, axis=1)
 
 #예측값
-y_predict = model.predict(x_predict)
-y_predict = np.argmax(y_predict, axis=1)
+# y_predict = model.predict(x_test)
+# y_predict = np.argmax(y_predict, axis=1)
 
-print("예측값: ", y_predict)
-print("정답: ", y_answer)
+# print("예측값: ", y_predict)
+# print("정답: ", y_test)
+
+
+
+'''
+=======iris_lstm=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+lstm (LSTM)                  (None, 64)                16896
+_________________________________________________________________
+dense (Dense)                (None, 128)               8320
+_________________________________________________________________
+dense_1 (Dense)              (None, 300)               38700
+_________________________________________________________________
+dropout (Dropout)            (None, 300)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 750)               225750
+_________________________________________________________________
+dense_3 (Dense)              (None, 1024)              769024
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 1024)              0
+_________________________________________________________________
+dense_4 (Dense)              (None, 512)               524800
+_________________________________________________________________
+dense_5 (Dense)              (None, 256)               131328
+_________________________________________________________________
+dense_6 (Dense)              (None, 90)                23130
+_________________________________________________________________
+dense_7 (Dense)              (None, 30)                2730
+_________________________________________________________________
+dense_8 (Dense)              (None, 3)                 93
+=================================================================
+Total params: 1,740,771
+Trainable params: 1,740,771
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.3195541203022003
+acc:  0.9777777791023254
+'''
+
+
+'''
+=======iris_lstm=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+lstm (LSTM)                  (None, 64)                16896
+_________________________________________________________________
+dense (Dense)                (None, 128)               8320
+_________________________________________________________________
+dense_1 (Dense)              (None, 300)               38700
+_________________________________________________________________
+dense_2 (Dense)              (None, 750)               225750
+_________________________________________________________________
+dropout (Dropout)            (None, 750)               0
+_________________________________________________________________
+dense_3 (Dense)              (None, 1024)              769024
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 1024)              0
+_________________________________________________________________
+dense_4 (Dense)              (None, 512)               524800
+_________________________________________________________________
+dense_5 (Dense)              (None, 256)               131328
+_________________________________________________________________
+dense_6 (Dense)              (None, 90)                23130
+_________________________________________________________________
+dense_7 (Dense)              (None, 30)                2730
+_________________________________________________________________
+dense_8 (Dense)              (None, 3)                 93
+=================================================================
+Total params: 1,740,771
+Trainable params: 1,740,771
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.18281465768814087
+acc:  0.9777777791023254
+'''
+
+
+'''
+=======iris_lstm=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+lstm (LSTM)                  (None, 64)                16896
+_________________________________________________________________
+dense (Dense)                (None, 128)               8320
+_________________________________________________________________
+dense_1 (Dense)              (None, 300)               38700
+_________________________________________________________________
+dense_2 (Dense)              (None, 750)               225750
+_________________________________________________________________
+dropout (Dropout)            (None, 750)               0
+_________________________________________________________________
+dense_3 (Dense)              (None, 1024)              769024
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 1024)              0
+_________________________________________________________________
+dense_4 (Dense)              (None, 512)               524800
+_________________________________________________________________
+dense_5 (Dense)              (None, 256)               131328
+_________________________________________________________________
+dense_6 (Dense)              (None, 90)                23130
+_________________________________________________________________
+dense_7 (Dense)              (None, 30)                2730
+_________________________________________________________________
+dense_8 (Dense)              (None, 3)                 93
+=================================================================
+Total params: 1,740,771
+Trainable params: 1,740,771
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.14333532750606537
+acc:  0.9333333373069763
+'''

@@ -1,6 +1,6 @@
 #2020-11-18 (8일차)
 #다중분류
-#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터
+#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터 -> DNN
 #x column=4 y label:1
 
 import numpy as np
@@ -110,15 +110,15 @@ print("loss: ", loss)
 print("acc: ", accuracy)
 
 
-#정답
-y_answer = np.argmax(y_answer, axis=1)
+# #정답
+# y_answer = np.argmax(y_answer, axis=1)
 
-#예측값
-y_predict = model.predict(x_predict)
-y_predict = np.argmax(y_predict, axis=1)
+# #예측값
+# y_predict = model.predict(x_predict)
+# y_predict = np.argmax(y_predict, axis=1)
 
-print("예측값: ", y_predict)
-print("정답: ", y_answer)
+# print("예측값: ", y_predict)
+# print("정답: ", y_answer)
 
 
 '''

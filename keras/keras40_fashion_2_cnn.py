@@ -58,7 +58,7 @@ model.add(Dense(10, activation='softmax')) #label: 0~9 (항상 dataset label 확
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping
 
-early_stopping = EarlyStopping(monitor='loss', patience=30, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
 
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',

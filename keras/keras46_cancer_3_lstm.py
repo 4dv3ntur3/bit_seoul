@@ -86,6 +86,7 @@ from tensorflow.keras.layers import Dense, LSTM, Dropout, Conv2D, MaxPooling2D, 
 model = Sequential()
 model.add(LSTM(32, activation='relu', input_shape=(x_train.shape[1], 1))) 
 model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.2))
 model.add(Dense(128, activation='relu'))
 model.add(Dense(512, activation='relu'))
 model.add(Dense(200, activation='relu'))

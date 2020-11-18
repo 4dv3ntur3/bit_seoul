@@ -1,6 +1,6 @@
 #2020-11-18 (8일차)
 #다중분류
-#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터
+#꽃잎과 줄기를 보고 어떤 꽃인지 판별하는 데이터 -> CNN
 #x column=4 y label:1
 
 import numpy as np
@@ -27,7 +27,6 @@ print(y.shape) #(150,)
 
 
 
-
 #전처리
 from sklearn.model_selection import train_test_split 
 
@@ -44,8 +43,6 @@ y_test = to_categorical(y_test)
 
 print(x_train.shape)
 
-x_predict = x_train[:10]
-y_answer = y_train[:10]
 
 
 #2. 모델 구성
@@ -78,8 +75,6 @@ model.add(Dense(3, activation='softmax')) #ouput
 
 
 
-
-
 #3. 컴파일 및 훈련
 from tensorflow.keras.callbacks import EarlyStopping
 early_stopping = EarlyStopping(monitor='loss', patience=85, mode='auto')
@@ -95,7 +90,6 @@ model.fit(
 )
 
 
-
 #4. 평가, 예측
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
@@ -106,14 +100,14 @@ print("acc: ", accuracy)
 
 
 #정답
-y_answer = np.argmax(y_answer, axis=1)
+# y_answer = np.argmax(y_answer, axis=1)
 
 #예측값
-y_predict = model.predict(x_predict)
-y_predict = np.argmax(y_predict, axis=1)
+# y_predict = model.predict(x_test)
+# y_predict = np.argmax(y_predict, axis=1)
 
-print("예측값: ", y_predict)
-print("정답: ", y_answer)
+# print("예측값: ", y_predict)
+# print("정답: ", y_test)
 
 
 '''
@@ -150,3 +144,5 @@ acc:  0.9777777791023254
 정답:  [0 2 2 2 2 2 2 0 0 1]
 PS D:\Study>
 '''
+
+
