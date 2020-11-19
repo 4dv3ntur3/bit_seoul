@@ -37,6 +37,12 @@ x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]*x_test.shape[2]*3).asty
                         #x_test.shape[0], x_test.shape[1] ... 
 
 
+from sklearn.model_selection import train_test_split
+
+x_test, y_test, x_val, y_val = train_test_split(
+    x_test, y_test, train_size=0.1
+)
+
 
 #predict data, answer data
 x_predict = x_train[20:30]
@@ -51,17 +57,18 @@ y_answer = y_train[20:30]
 
 #2. 모델
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
 
 model = Sequential()
-model.add(Dense(200, activation='relu', input_shape=(32*32*3,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+model.add(Dense(3000, activation='relu', input_shape=(32*32*3,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activatio n default='relu'
                                         #LSTM의 activation default='tanh'
-model.add(Dense(150, activation='relu'))
-model.add(Dense(110, activation='relu'))
-model.add(Dense(70, activation='relu'))
+model.add(Dense(2000, activation='relu'))
+model.add(Dense(1000, activation='relu'))
+model.add(Dense(500, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(100, activation='relu'))
 model.add(Dense(50, activation='relu'))
-# model.add(Dense(30, activation='relu'))
 model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
 
@@ -74,7 +81,7 @@ model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중�
 #tensorboard 
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 
-early_stopping = EarlyStopping(monitor='loss', patience=20, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
 
 #log가 들어갈 폴더='graph'
 #여기까지 해서 graph 폴더 생기고 자료들 들어가 있으면 텐서보드 쓸 준비 ok
@@ -87,7 +94,12 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', 
               metrics=['accuracy']) #"mean_squared_error" (풀네임도 가능하다)
 
-model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, callbacks=[early_stopping])
+model.fit(x_train, 
+          y_train, 
+          epochs=100, 
+          batch_size=512, 
+          validation_split=0.2, 
+          callbacks=[early_stopping])
 
 
 
@@ -95,7 +107,7 @@ model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, call
 #fit에서 쓴 이름과 맞춰 주기 
 
 
-loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+loss, accuracy = model.evaluate(x_test, y_test, batch_size=512)
 
 print("======cifar10_DNN=======")
 model.summary()
@@ -115,8 +127,44 @@ y_predict = model.predict(x_predict)
 y_predict = np.argmax(y_predict, axis=1)
 
 
-model.summary()
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
 
-model.summary()
+
+
+'''
+_________________________________________________________________
+loss:  1.7710328102111816
+acc:  0.46619999408721924
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense (Dense)                (None, 1024)              3146752
+_________________________________________________________________
+dense_1 (Dense)              (None, 512)               524800
+_________________________________________________________________
+dropout (Dropout)            (None, 512)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 300)               153900    
+_________________________________________________________________
+dense_3 (Dense)              (None, 500)               150500
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 500)               0
+_________________________________________________________________
+dense_4 (Dense)              (None, 256)               128256
+_________________________________________________________________
+dense_5 (Dense)              (None, 128)               32896
+_________________________________________________________________
+dense_6 (Dense)              (None, 64)                8256
+_________________________________________________________________
+dense_7 (Dense)              (None, 30)                1950
+_________________________________________________________________
+dense_8 (Dense)              (None, 10)                310
+=================================================================
+Total params: 4,147,620
+Trainable params: 4,147,620
+Non-trainable params: 0
+_________________________________________________________________
+'''
+

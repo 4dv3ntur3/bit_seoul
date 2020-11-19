@@ -35,8 +35,8 @@ print(x_train.shape, y_train.shape)
 #60000, 14, 14, 4도 가능하고 60000, 28, 14, 2도 가능
 #LSTM으로도 바꿀 수 있다
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2]*3).astype('float32')/255.
-x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2]*3).astype('float32')/255.
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1]*3, x_train.shape[2]).astype('float32')/255.
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]*3, x_test.shape[2]).astype('float32')/255.
                         #x_test.shape[0], x_test.shape[1] ... 
 
 
@@ -61,7 +61,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
 
 model = Sequential()
-model.add(LSTM(200, activation='relu', input_shape=(32, 32*3))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+model.add(LSTM(200, activation='relu', input_shape=(32*3, 32))) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activatio n default='relu'
                                         #LSTM의 activation default='tanh'
 model.add(Dense(150, activation='relu'))

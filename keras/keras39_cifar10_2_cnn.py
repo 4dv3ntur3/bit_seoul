@@ -33,19 +33,19 @@ y_answer = y_train[:10]
 
 #2. 모델
 model = Sequential()
-model.add(Conv2D(128, (3, 3), padding='same', activation='relu', input_shape=(32, 32, 3))) #padding 주의!
+model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=(32, 32, 3))) #padding 주의!
+model.add(Conv2D(32, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Dropout(0.2))
+
+
+model.add(Conv2D(64, (3, 3), padding='same', activation='relu')) #padding default=valid
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Dropout(0.2))
+
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu')) #padding default=valid
 model.add(Conv2D(128, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
-model.add(Dropout(0.2))
-
-
-model.add(Conv2D(256, (3, 3), padding='same', activation='relu')) #padding default=valid
-model.add(Conv2D(256, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
-model.add(Dropout(0.2))
-
-model.add(Conv2D(512, (3, 3), padding='same', activation='relu')) #padding default=valid
-model.add(Conv2D(512, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
 model.add(Dropout(0.2))
 
@@ -67,14 +67,15 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
+#batch_size 무조건 32가 잘 먹히진 안음... 
+#특히 이미지 파일의 경우... 한번에 많이 줘야 학습을 잘하지 않을까...
+model.fit(x_train, y_train, epochs=100, batch_size=512, verbose=1,
           validation_split=0.2, callbacks=[early_stopping])
 
 
 
 #4. 평가, 예측
-loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
-
+loss, accuracy = model.evaluate(x_test, y_test, batch_size=512)
 print("======cifar10_CNN=======")
 
 model.summary()
@@ -186,6 +187,55 @@ Non-trainable params: 0
 _________________________________________________________________
 loss:  0.7441360950469971
 acc:  0.781000018119812
+예측값:  [6 9 9 4 1 1 2 7 8 3]
+정답:  [6 9 9 4 1 1 2 7 8 3]
+'''
+
+
+'''
+======cifar10_CNN=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+conv2d (Conv2D)              (None, 32, 32, 32)        896
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 30, 30, 32)        9248
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 15, 15, 32)        0
+_________________________________________________________________
+dropout (Dropout)            (None, 15, 15, 32)        0
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 15, 15, 64)        18496
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 13, 13, 64)        36928
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 6, 6, 64)          0
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 6, 6, 64)          0
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 6, 6, 128)         73856
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 4, 4, 128)         147584
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 2, 2, 128)         0
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 2, 2, 128)         0
+_________________________________________________________________
+flatten (Flatten)            (None, 512)               0
+_________________________________________________________________
+dense (Dense)                (None, 1024)              525312
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 1024)              0
+_________________________________________________________________
+dense_1 (Dense)              (None, 10)                10250
+=================================================================
+Total params: 822,570
+Trainable params: 822,570
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.8823755979537964
+acc:  0.8011000156402588
 예측값:  [6 9 9 4 1 1 2 7 8 3]
 정답:  [6 9 9 4 1 1 2 7 8 3]
 '''
