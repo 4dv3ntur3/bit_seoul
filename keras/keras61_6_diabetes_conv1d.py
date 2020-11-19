@@ -107,3 +107,4 @@ from sklearn.metrics import r2_score
 print("R2: ", r2_score(y_test, y_pred))
 
 model.summary()
+

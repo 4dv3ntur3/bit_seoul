@@ -2,6 +2,7 @@
 #pandas
 #loc, iloc******* 중요
 
+
 import pandas as pd
 import numpy as np
 
@@ -71,7 +72,6 @@ Name: 나, dtype: int64
 '''
 
 
-
 print("d2f['나', '라']: \n", df2[['나', '라']]) #2 6 10 14 18
                                                 #4 8 12 16 20
 '''
@@ -102,12 +102,13 @@ E    19
 Name: 다, dtype: int64
 '''
 
+
 # print("df[:, 2]: \n", df2[:, 2]) #모든 행의 세 번째 index 0, 1, 2
-#error: iloc는 위치에 맞춘 순서대로 
+#error
 #numpy에선 가능한데 pandas에선 안 된다 
 
 
-#ROW(열)
+#ROW(행)
 print("df2.loc['A']\n", df2.loc['A'])
 '''
 df2.loc['A']
@@ -117,6 +118,7 @@ df2.loc['A']
 라    4
 Name: A, dtype: int64
 '''
+
 
 print("df2.loc[['A, 'C']]\n", df2.loc[['A', 'C']])
 '''
