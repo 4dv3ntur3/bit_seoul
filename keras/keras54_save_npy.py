@@ -1,5 +1,5 @@
 #2020-11-19 (9일차)
-#dataset *.npy로 저장하기
+#dataset *.npy로 저장하기: iris
 
 import numpy as np
 from sklearn.datasets import load_iris

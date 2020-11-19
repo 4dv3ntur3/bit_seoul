@@ -25,7 +25,7 @@ np.save('./data/mnist_y_test.npy', arr=y_test)
 
 
 
-'''
+
 #전처리: OneHotEncoding 대상은 Y
 from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)
@@ -92,7 +92,7 @@ print("loss : ", result3[0])
 print("accuracy : ", result3[1])
 
 
-
+'''
 ====model & weights 같이 저장=========
 loss :  0.0756116583943367
 accuracy :  0.9807999730110168
