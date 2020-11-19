@@ -1,6 +1,7 @@
 #2020-11-18 (8일차)
 #cifar-10 -> CNN: checkpoints / model.fit() 이후 model.save() / model.save_weights()
 
+
 from tensorflow.keras.datasets import cifar10
 
 #이미지 분류-> OneHotEncoding

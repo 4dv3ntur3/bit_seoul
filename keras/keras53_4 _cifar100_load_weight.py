@@ -53,7 +53,7 @@ print("accuracy : ", result2[1])
 #2. 모델 구성
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
-from tensroflow.keras.layers import Dropout, Conv2D, MaxPooling2D, Flatten #LSTM도 layer
+from tensorflow.keras.layers import Dropout, Conv2D, MaxPooling2D, Flatten #LSTM도 layer
 
 model3 = Sequential()
 model3.add(Conv2D(128, (2, 2), padding='valid', activation='relu', input_shape=(32, 32, 3)))
