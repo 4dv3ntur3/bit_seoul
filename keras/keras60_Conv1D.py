@@ -41,7 +41,7 @@ x_predict = x_predict.reshape(1, 4, 1)
 #conv1D 모델 구성
 #2차원에서는 가로x세로, 1차원의 경우 쭉이니까 스칼라로, stride 있음, padding 있음
 model = Sequential()
-model.add(Conv1D(32, 3, activation='relu', padding='same', input_shape=(x.shape[1], x.shape[2])))
+model.add(Conv1D(32, 3, activation='relu', padding='same', input_shape=(x_train.shape[1], x_train.shape[2])))
 # model.add(Conv1D(32, 3, activation='relu', padding='same'))
 # model.add(MaxPooling1D(pool_size=2))
 
