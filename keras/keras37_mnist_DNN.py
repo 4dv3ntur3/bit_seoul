@@ -115,6 +115,9 @@ model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, call
 
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+
+print("=======mnist_DNN=======")
+
 print("loss: ", loss)
 print("acc: ", accuracy)
 

@@ -52,9 +52,13 @@ model.add(Dropout(0.2))
 
 model.add(Conv2D(128, (3, 3), padding='same', activation='relu')) #padding default=valid
 model.add(Conv2D(128, (3, 3), activation='relu'))
-model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+# model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
 model.add(Dropout(0.2))
 
+model.add(Conv2D(256, (3, 3), padding='same', activation='relu')) #padding default=valid
+model.add(Conv2D(256, (3, 3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=2)) #pool_size default=2
+model.add(Dropout(0.2))
 
 model.add(Flatten())
 model.add(Dense(1024, activation='relu'))
@@ -120,28 +124,32 @@ max_pooling2d_1 (MaxPooling2 (None, 5, 5, 64)          0
 _________________________________________________________________
 dropout_1 (Dropout)          (None, 5, 5, 64)          0
 _________________________________________________________________
-conv2d_4 (Conv2D)            (None, 5, 5, 128)         73856
+conv2d_4 (Conv2D)            (None, 5, 5, 128)         73856     
 _________________________________________________________________
-conv2d_5 (Conv2D)            (None, 3, 3, 128)         147584    
+conv2d_5 (Conv2D)            (None, 3, 3, 128)         147584
 _________________________________________________________________
-max_pooling2d_2 (MaxPooling2 (None, 1, 1, 128)         0
+dropout_2 (Dropout)          (None, 3, 3, 128)         0
 _________________________________________________________________
-dropout_2 (Dropout)          (None, 1, 1, 128)         0
+conv2d_6 (Conv2D)            (None, 3, 3, 256)         295168
 _________________________________________________________________
-flatten (Flatten)            (None, 128)               0
+conv2d_7 (Conv2D)            (None, 1, 1, 256)         590080
 _________________________________________________________________
-dense (Dense)                (None, 1024)              132096
+dropout_3 (Dropout)          (None, 1, 1, 256)         0
 _________________________________________________________________
-dropout_3 (Dropout)          (None, 1024)              0
+flatten (Flatten)            (None, 256)               0
+_________________________________________________________________
+dense (Dense)                (None, 1024)              263168
+_________________________________________________________________
+dropout_4 (Dropout)          (None, 1024)              0
 _________________________________________________________________
 dense_1 (Dense)              (None, 10)                10250
 =================================================================
-Total params: 428,778
-Trainable params: 428,778
+Total params: 1,445,098
+Trainable params: 1,445,098
 Non-trainable params: 0
 _________________________________________________________________
-loss:  0.3383936285972595
-acc:  0.9273999929428101
+loss:  0.363753080368042
+acc:  0.9329000115394592
 예측값:  [9 0 0 3 0 2 7 2 5 5]
 정답:  [9 0 0 3 0 2 7 2 5 5]
 '''

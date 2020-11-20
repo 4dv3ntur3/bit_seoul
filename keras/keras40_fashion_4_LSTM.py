@@ -39,11 +39,15 @@ y_answer = y_train[:10]
 
 #2. 모델
 model = Sequential()
-model.add(LSTM(1000, activation='relu', input_shape=(x_train.shape[1], x_train.shape[2]))) #꼭 28, 28, 1일 필요는 없음 #뭔가 시계열 같은 데이터라고 판단이 되면 몇 개씩 자를지 생각할 수도 있음
-model.add(Dense(500, activation='relu'))
-model.add(Dense(250, activation='relu'))
-model.add(Dense(150, activation='relu'))
-model.add(Dense(50, activation='relu'))
+model.add(LSTM(64, activation='relu', input_shape=(x_train.shape[1], x_train.shape[2]))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+                                        #Conv2d의 activatio n default='relu'
+                                        #LSTM의 activation default='tanh'
+model.add(Dense(128, activation='relu'))
+model.add(Dense(512, activation='relu'))
+model.add(Dense(1024, activation='relu'))
+model.add(Dense(256, activation='relu'))
+model.add(Dense(128, activation='relu'))
+model.add(Dense(64, activation='relu'))
 model.add(Dense(30, activation='relu'))
 model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
@@ -60,13 +64,13 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
+model.fit(x_train, y_train, epochs=100, batch_size=512, verbose=1,
           validation_split=0.2, callbacks=[early_stopping])
 
 
 
 #4. 평가, 예측
-loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+loss, accuracy = model.evaluate(x_test, y_test, batch_size=512)
 
 print("======fashion_lstm=======")
 model.summary()
@@ -84,3 +88,38 @@ y_predict = np.argmax(y_predict, axis=1)
 
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
+
+
+'''
+======fashion_lstm=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+lstm (LSTM)                  (None, 64)                23808
+_________________________________________________________________
+dense (Dense)                (None, 128)               8320
+_________________________________________________________________
+dense_1 (Dense)              (None, 256)               33024
+_________________________________________________________________
+dense_2 (Dense)              (None, 512)               131584
+_________________________________________________________________
+dense_3 (Dense)              (None, 300)               153900
+_________________________________________________________________
+dense_4 (Dense)              (None, 128)               38528
+_________________________________________________________________
+dense_5 (Dense)              (None, 64)                8256
+_________________________________________________________________
+dense_6 (Dense)              (None, 30)                1950
+_________________________________________________________________
+dense_7 (Dense)              (None, 10)                310
+=================================================================
+Total params: 399,680
+Trainable params: 399,680
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.5856268405914307
+acc:  0.8751000165939331
+예측값:  [9 0 0 3 0 2 7 2 5 5]
+정답:  [9 0 0 3 0 2 7 2 5 5]
+'''

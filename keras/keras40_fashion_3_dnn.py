@@ -27,7 +27,6 @@ print(y_train.shape, y_test.shape) #(60000,) (10000,)
 #1. 데이터 전처리
 y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
-# print(y_test)
 
 x_train = x_train.reshape(x_train.shape[0], x_train.shape[1]*x_train.shape[2]*1).astype('float32')/255.
 x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]*x_test.shape[2]*1).astype('float32')/255.
@@ -63,20 +62,21 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
 
-model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
+model.fit(x_train, y_train, epochs=100, batch_size=512, verbose=1,
           validation_split=0.2, callbacks=[early_stopping])
 
 
 
 #4. 평가, 예측
 
-loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+loss, accuracy = model.evaluate(x_test, y_test, batch_size=512)
 
 print("======fashion_DNN=======")
 model.summary()
 
 print("loss: ", loss)
 print("acc: ", accuracy)
+
 
 
 #정답
@@ -88,3 +88,31 @@ y_predict = np.argmax(y_predict, axis=1)
 
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
+
+
+'''
+======fashion_DNN=======
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+dense (Dense)                (None, 200)               157000
+_________________________________________________________________
+dense_1 (Dense)              (None, 150)               30150
+_________________________________________________________________
+dense_2 (Dense)              (None, 110)               16610
+_________________________________________________________________
+dense_3 (Dense)              (None, 70)                7770
+_________________________________________________________________
+dense_4 (Dense)              (None, 50)                3550
+_________________________________________________________________
+dense_5 (Dense)              (None, 10)                510
+=================================================================
+Total params: 215,590
+Trainable params: 215,590
+Non-trainable params: 0
+_________________________________________________________________
+loss:  0.78529292345047
+acc:  0.8845000267028809
+예측값:  [9 0 0 3 0 2 7 2 5 5]
+정답:  [9 0 0 3 0 2 7 2 5 5]

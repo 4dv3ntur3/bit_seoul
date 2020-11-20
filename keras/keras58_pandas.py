@@ -20,7 +20,6 @@ print(datasets.shape) # 150, 5                                   150 rows * 5 co
 
 
 
-
 #index_col= None, 0, 1 / header = None, 0, 1 일 때 총 9가지의 shape 경우의 수 정리
 
 '''

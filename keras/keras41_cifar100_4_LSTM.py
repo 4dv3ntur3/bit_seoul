@@ -93,14 +93,14 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', 
               metrics=['accuracy']) #"mean_squared_error" (풀네임도 가능하다)
 
-model.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping])
+model.fit(x_train, y_train, epochs=100, batch_size=512, validation_split=0.2, callbacks=[early_stopping])
 
 
 
 #4. 평가, 예측
 #fit에서 쓴 이름과 맞춰 주기 
 
-loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+loss, accuracy = model.evaluate(x_test, y_test, batch_size=512)
 
 print("======cifar100_LSTM=======")
 model.summary()

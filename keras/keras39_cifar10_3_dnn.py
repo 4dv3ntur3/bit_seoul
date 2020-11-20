@@ -37,12 +37,6 @@ x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]*x_test.shape[2]*3).asty
                         #x_test.shape[0], x_test.shape[1] ... 
 
 
-from sklearn.model_selection import train_test_split
-
-x_test, y_test, x_val, y_val = train_test_split(
-    x_test, y_test, train_size=0.1
-)
-
 
 #predict data, answer data
 x_predict = x_train[20:30]
@@ -59,7 +53,11 @@ y_answer = y_train[20:30]
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
 
+
 model = Sequential()
+
+
+'''
 model.add(Dense(3000, activation='relu', input_shape=(32*32*3,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activatio n default='relu'
                                         #LSTM의 activation default='tanh'
@@ -71,6 +69,25 @@ model.add(Dense(100, activation='relu'))
 model.add(Dense(50, activation='relu'))
 model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
+
+'''
+
+model.add(Dense(32, activation='relu', input_shape=(32*32*3,))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+                                        #Conv2d의 activation default='relu'
+                                        #LSTM의 activation default='tanh'
+                                        
+model.add(Dense(128, activation='relu'))
+model.add(Dense(512, activation='relu'))
+model.add(Dense(1024, activation='relu'))
+model.add(Dense(3000, activation='relu'))
+model.add(Dense(256, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(30, activation='relu'))
+model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
+                                            #즉 softmax를 사용하려면 OneHotEncoding 해야
+
+
+
 
 
 
@@ -132,39 +149,34 @@ print("정답: ", y_answer)
 
 
 
+
 '''
-_________________________________________________________________
-loss:  1.7710328102111816
-acc:  0.46619999408721924
+======cifar10_DNN=======
 Model: "sequential"
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #
 =================================================================
-dense (Dense)                (None, 1024)              3146752
+dense (Dense)                (None, 3000)              9219000
 _________________________________________________________________
-dense_1 (Dense)              (None, 512)               524800
+dense_1 (Dense)              (None, 2000)              6002000
+dense_2 (Dense)              (None, 1000)              2001000
 _________________________________________________________________
-dropout (Dropout)            (None, 512)               0
+dense_3 (Dense)              (None, 500)               500500
 _________________________________________________________________
-dense_2 (Dense)              (None, 300)               153900    
+dense_4 (Dense)              (None, 200)               100200
 _________________________________________________________________
-dense_3 (Dense)              (None, 500)               150500
+dense_5 (Dense)              (None, 100)               20100
 _________________________________________________________________
-dropout_1 (Dropout)          (None, 500)               0
+dense_6 (Dense)              (None, 50)                5050
 _________________________________________________________________
-dense_4 (Dense)              (None, 256)               128256
-_________________________________________________________________
-dense_5 (Dense)              (None, 128)               32896
-_________________________________________________________________
-dense_6 (Dense)              (None, 64)                8256
-_________________________________________________________________
-dense_7 (Dense)              (None, 30)                1950
-_________________________________________________________________
-dense_8 (Dense)              (None, 10)                310
+dense_7 (Dense)              (None, 10)                510
 =================================================================
-Total params: 4,147,620
-Trainable params: 4,147,620
+Total params: 17,848,360
+Trainable params: 17,848,360
 Non-trainable params: 0
 _________________________________________________________________
+loss:  3.753026247024536
+acc:  0.5026999711990356
+예측값:  [4 3 6 6 2 6 3 5 4 0]
+정답:  [4 3 6 6 2 6 3 5 4 0]
 '''
-

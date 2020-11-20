@@ -27,7 +27,7 @@ y_test = to_categorical(y_test)
 # print(y_train)
 
 
-print(x_train.shape, y_train.shape)
+# print(x_train.shape, y_train.shape)
 # print(y_train[0]) #y_train[0]=5 -> [0. 0. 0. 0. 0. 1. 0. 0. 0. 0.]
 
 
@@ -35,8 +35,8 @@ print(x_train.shape, y_train.shape)
 #60000, 14, 14, 4도 가능하고 60000, 28, 14, 2도 가능
 #LSTM으로도 바꿀 수 있다
 
-x_train = x_train.reshape(x_train.shape[0], x_train.shape[1]*3, x_train.shape[2]).astype('float32')/255.
-x_test = x_test.reshape(x_test.shape[0], x_test.shape[1]*3, x_test.shape[2]).astype('float32')/255.
+x_train = x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2]*3).astype('float32')/255.
+x_test = x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2]*3).astype('float32')/255.
                         #x_test.shape[0], x_test.shape[1] ... 
 
 
@@ -58,17 +58,19 @@ print(x_train.shape, y_train.shape)
 
 #2. 모델
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
+from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout
 
 model = Sequential()
-model.add(LSTM(200, activation='relu', input_shape=(32*3, 32))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+model.add(LSTM(32, activation='relu', input_shape=(32, 32*3))) #flatten하면서 곱하고 dense에서 또 100 곱함 
                                         #Conv2d의 activatio n default='relu'
                                         #LSTM의 activation default='tanh'
-model.add(Dense(150, activation='relu'))
-model.add(Dense(110, activation='relu'))
-model.add(Dense(70, activation='relu'))
-model.add(Dense(50, activation='relu'))
-# model.add(Dense(30, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(256, activation='relu'))
+model.add(Dense(512, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(128, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(30, activation='relu'))
 model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
 
@@ -81,7 +83,7 @@ model.add(Dense(10, activation='softmax')) #softmax** : 2 이상 분류(다중�
 #tensorboard 
 from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 
-early_stopping = EarlyStopping(monitor='loss', patience=20, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
 
 #log가 들어갈 폴더='graph'
 #여기까지 해서 graph 폴더 생기고 자료들 들어가 있으면 텐서보드 쓸 준비 ok
@@ -96,7 +98,7 @@ model.compile(loss='categorical_crossentropy',
 
 model.fit(x_train, y_train, 
         epochs=100, 
-        batch_size=1, 
+        batch_size=512,
         validation_split=0.2, 
         callbacks=[early_stopping])
 
@@ -105,10 +107,9 @@ model.fit(x_train, y_train,
 #4. 평가, 예측
 #fit에서 쓴 이름과 맞춰 주기 
 
-loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
+loss, accuracy = model.evaluate(x_test, y_test, batch_size=512)
 
 print("======cifar-10_LSTM=======")
-model.summary()
 
 print("loss: ", loss)
 print("acc: ", accuracy)
@@ -126,6 +127,39 @@ y_predict = model.predict(x_predict)
 y_predict = np.argmax(y_predict, axis=1)
 
 
-model.summary()
 print("예측값: ", y_predict)
 print("정답: ", y_answer)
+
+
+'''
+======cifar-10_LSTM=======
+Model: "sequential"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+lstm (LSTM)                  (None, 32)                16512
+_________________________________________________________________
+dense (Dense)                (None, 64)                2112
+_________________________________________________________________
+dense_1 (Dense)              (None, 256)               16640
+_________________________________________________________________
+dense_2 (Dense)              (None, 200)               51400
+_________________________________________________________________
+dense_3 (Dense)              (None, 128)               25728
+_________________________________________________________________
+dense_4 (Dense)              (None, 64)                8256
+_________________________________________________________________
+dense_5 (Dense)              (None, 30)                1950
+_________________________________________________________________
+dense_6 (Dense)              (None, 10)                310
+=================================================================
+Total params: 122,908
+Trainable params: 122,908
+Non-trainable params: 0
+_________________________________________________________________
+loss:  2.2993290424346924
+acc:  0.478300005197525
+
+예측값:  [4 3 6 6 2 6 3 2 4 0]
+정답:  [4 3 6 6 2 6 3 5 4 0]
+'''

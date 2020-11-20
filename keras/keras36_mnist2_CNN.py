@@ -125,6 +125,8 @@ model.fit(x_train, y_train, epochs=100, batch_size=32, verbose=1,
 
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+
+print("=======mnist_CNN=======")
 print("loss: ", loss)
 print("acc: ", accuracy)
 

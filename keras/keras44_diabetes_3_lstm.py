@@ -69,7 +69,7 @@ model.add(Dense(1)) #output
 
 #3. 컴파일 및 훈련
 from tensorflow.keras.callbacks import EarlyStopping
-early_stopping = EarlyStopping(monitor='loss', patience=80, mode='auto')
+early_stopping = EarlyStopping(monitor='loss', patience=10, mode='auto')
 
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
@@ -78,13 +78,13 @@ model.fit(
     y_train,
     callbacks=[early_stopping],
     validation_split=0.2,
-    epochs=1000, batch_size=10
+    epochs=100, batch_size=32
 )
 
 
 
 #4. 평가, 예측
-loss, mse = model.evaluate(x_test, y_test, batch_size=10)
+loss, mse = model.evaluate(x_test, y_test, batch_size=32)
 
 print("======Diabetes_LSTM=====")
 model.summary()

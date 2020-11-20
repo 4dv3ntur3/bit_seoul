@@ -117,6 +117,10 @@ model.fit(x_train, y_train, epochs=100, batch_size=100, validation_split=0.2,
 
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
+
+
+print("=======mnist_LSTM=======")
+
 print("loss: ", loss)
 print("acc: ", accuracy)
 
@@ -131,6 +135,7 @@ y_answer = np.argmax(y_answer, axis=1)
 #예측값
 y_predict = model.predict(x_predict)
 y_predict = np.argmax(y_predict, axis=1)
+
 
 
 model.summary()
