@@ -82,7 +82,7 @@ model3.add(Dense(1))
 
 
 # 3. 컴파일
-model3.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+model3.compile(loss='mse', optimizer='adam', metrics=['mse'])
 model3.load_weights('./save/boston_dnn_weights.h5')
 
 
