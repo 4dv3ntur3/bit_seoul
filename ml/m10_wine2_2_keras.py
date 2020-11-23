@@ -1,5 +1,4 @@
 #2020-11-23 (11일차)
-#feature importance
 #wine.csv 이용해서 Deep Learning
 
 

@@ -1,5 +1,6 @@
 #2020-11-23 (11일차)
-#feature importance
+#Y data 전처리: RandomForest
+
 
 import pandas as pd
 wine = pd.read_csv('./data/csv/winequality-white.csv', sep=';', header=0)

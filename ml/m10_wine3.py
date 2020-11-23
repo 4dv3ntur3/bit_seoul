@@ -1,6 +1,5 @@
 #2020-11-23 (11일차)
-#feature importance
-#wine.csv 이용해서 Deep Learning
+#wine.csv Y값(class) 분포 확인
 
 import pandas as pd
 

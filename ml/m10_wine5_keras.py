@@ -1,5 +1,5 @@
 #2020-11-23 (11일차)
-#feature importance
+#Y data 전처리: keras
 
 import pandas as pd
 from sklearn.svm import LinearSVC, SVC
