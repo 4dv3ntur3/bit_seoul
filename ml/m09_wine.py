@@ -1,8 +1,8 @@
 #2020-11-23 (11일차)
-#Machine Learning: iris
+#Machine Learning: load_wine
 
 import numpy as np
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_wine
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler #robust = 이상치 제거에 효과적
 
 
@@ -15,14 +15,17 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor #feature importance
 from sklearn.model_selection import train_test_split
-                                    
+
+
+
 #1. 데이터
-x, y = load_iris(return_X_y=True)
+# x, y = load_wine(return_X_y=True)
+datasets = load_wine()
+x = datasets.data
+y = datasets.target
 
-feature_names = load_iris().feature_names
-print(feature_names) #['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
-
-
+print(datasets.feature_names)
+#['alcohol', 'malic_acid', 'ash', 'alcalinity_of_ash', 'magnesium', 'total_phenols', 'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 'color_intensity', 'hue', 'od280/od315_of_diluted_wines', 'proline']
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, random_state=66, shuffle=True, train_size=0.8 
@@ -37,16 +40,17 @@ scaler.transform(x_test)
 
 
 #2. 모델(일단은 dafault만 미세 조정은 추후에)
-# model = LinearSVC()
+model = LinearSVC()
 # model = SVC()
 # model = KNeighborsClassifier()
-model = KNeighborsRegressor()
+# model = KNeighborsRegressor()
 # model = RandomForestClassifier()
-# model = RandomForestRegressor() #쓸 수 있는 모델은 6개지만 잘 돌아갈 수 있는 건 4개
+# model = RandomForestRegressor()
 
 
 #3. 훈련
 model.fit(x_train, y_train)
+
 
 
 #4. 평가, 예측
@@ -64,59 +68,46 @@ print("model.score: ", score)
 
 y_predict = model.predict(x_test)
 
-# metrics_score = accuracy_score(y_test, y_predict)
-# print("accuracy_score: " , metrics_score)
+metrics_score = accuracy_score(y_test, y_predict)
+print("accuracy_score: " , metrics_score)
 
-metrics_score = r2_score(y_test, y_predict)
-print("r2_score: ", metrics_score)
+# metrics_score = r2_score(y_test, y_predict)
+# print("r2_score: ", metrics_score)
 
 print(y_test[:10], "의 예측 결과: \n", y_predict[:10])
 
 
 
-'''
-model = LinearSVC()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 1]
+# LinearSVC
+# model.score:  0.9444444444444444
+# accuracy_score:  0.9444444444444444
+# [2 1 1 0 1 1 2 0 0 1] 의 예측 결과:
+#  [2 1 1 0 1 1 2 0 0 1]
 
 
-model = SVC()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 2]
+# SVC
+# model.score:  0.6944444444444444
+# accuracy_score:  0.6944444444444444
+# [2 1 1 0 1 1 2 0 0 1] 의 예측 결과:
+#  [1 2 1 0 1 1 2 0 0 2]
+
+# KNeighborsClassifier
+# model.score:  0.6944444444444444
+# accuracy_score:  0.6944444444444444
+# [2 1 1 0 1 1 2 0 0 1] 의 예측 결과:
+#  [1 2 1 0 1 1 2 0 0 2]
+
+# model = KNeighborsRegressor()
+# ValueError: Classification metrics can't handle a mix of multiclass and continuous targets
+
+# model = RandomForestClassifier()
+# model.score:  1.0
+# accuracy_score:  1.0
+# [2 1 1 0 1 1 2 0 0 1] 의 예측 결과:
+#  [2 1 1 0 1 1 2 0 0 1]
 
 
-model = KNeighborsClassifier()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 2]
-
-
-model = KNeighborsRegressor()
-model.score:  0.954270134228188
-r2_score:  0.954270134228188
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1.   1.1  1.   0.   1.   1.   0.   0.   0.   1.32]
-
-
-model = RandomForestClassifier()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 2]
-
-
-model = RandomForestRegressor() 
-model.score:  0.954270134228188
-r2_score:  0.954270134228188
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1.   1.1  1.   0.   1.   1.   0.   0.   0.   1.32]
-'''
-
-
+# model = RandomForestRegressor() 
+# ValueError: Classification metrics can't handle a mix of multiclass and continuous targets
 
 

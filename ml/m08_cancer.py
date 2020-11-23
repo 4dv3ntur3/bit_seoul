@@ -1,8 +1,8 @@
 #2020-11-23 (11일차)
-#Machine Learning: iris
+#Machine Learning: cancer
 
 import numpy as np
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_breast_cancer
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler #robust = 이상치 제거에 효과적
 
 
@@ -17,11 +17,23 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor #feat
 from sklearn.model_selection import train_test_split
                                     
 #1. 데이터
-x, y = load_iris(return_X_y=True)
+x, y = load_breast_cancer(return_X_y=True)
 
-feature_names = load_iris().feature_names
-print(feature_names) #['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
+feature = load_breast_cancer().feature_names
 
+print(feature)
+
+'''
+['mean radius' 'mean texture' 'mean perimeter' 'mean area'
+ 'mean smoothness' 'mean compactness' 'mean concavity'
+ 'mean concave points' 'mean symmetry' 'mean fractal dimension'
+ 'radius error' 'texture error' 'perimeter error' 'area error'
+ 'smoothness error' 'compactness error' 'concavity error'
+ 'concave points error' 'symmetry error' 'fractal dimension error'
+ 'worst radius' 'worst texture' 'worst perimeter' 'worst area'
+ 'worst smoothness' 'worst compactness' 'worst concavity'
+ 'worst concave points' 'worst symmetry' 'worst fractal dimension']
+'''
 
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -37,16 +49,17 @@ scaler.transform(x_test)
 
 
 #2. 모델(일단은 dafault만 미세 조정은 추후에)
-# model = LinearSVC()
+model = LinearSVC()
 # model = SVC()
 # model = KNeighborsClassifier()
-model = KNeighborsRegressor()
+# model = KNeighborsRegressor()
 # model = RandomForestClassifier()
-# model = RandomForestRegressor() #쓸 수 있는 모델은 6개지만 잘 돌아갈 수 있는 건 4개
+# model = RandomForestRegressor() 
 
 
 #3. 훈련
 model.fit(x_train, y_train)
+
 
 
 #4. 평가, 예측
@@ -64,59 +77,52 @@ print("model.score: ", score)
 
 y_predict = model.predict(x_test)
 
-# metrics_score = accuracy_score(y_test, y_predict)
-# print("accuracy_score: " , metrics_score)
+metrics_score = accuracy_score(y_test, y_predict)
+print("accuracy_score: " , metrics_score)
 
-metrics_score = r2_score(y_test, y_predict)
-print("r2_score: ", metrics_score)
+# metrics_score = r2_score(y_test, y_predict)
+# print("r2_score: ", metrics_score)
 
 print(y_test[:10], "의 예측 결과: \n", y_predict[:10])
 
 
 
+
 '''
-model = LinearSVC()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 1]
+LinearSVC
+model.score:  0.8859649122807017
+accuracy_score:  0.8859649122807017
+[1 1 1 1 1 0 0 1 1 1] 의 예측 결과:
+ [1 1 1 1 1 1 0 1 1 1]
 
 
-model = SVC()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 2]
+SVC
+model.score:  0.8947368421052632
+accuracy_score:  0.8947368421052632
+[1 1 1 1 1 0 0 1 1 1] 의 예측 결과:
+ [1 1 1 1 1 1 0 1 1 1]
 
-
-model = KNeighborsClassifier()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 2]
+KNeighborsClassifier
+model.score:  0.9210526315789473
+accuracy_score:  0.9210526315789473
+[1 1 1 1 1 0 0 1 1 1] 의 예측 결과:
+ [1 1 1 1 1 0 0 1 1 1]
 
 
 model = KNeighborsRegressor()
-model.score:  0.954270134228188
-r2_score:  0.954270134228188
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1.   1.1  1.   0.   1.   1.   0.   0.   0.   1.32]
+ValueError: Classification metrics can't handle a mix of binary and continuous targets
 
 
 model = RandomForestClassifier()
-model.score:  0.9666666666666667
-accuracy_score:  0.9666666666666667
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1 1 1 0 1 1 0 0 0 2]
+model.score:  0.956140350877193
+accuracy_score:  0.956140350877193
+[1 1 1 1 1 0 0 1 1 1] 의 예측 결과:
+ [1 1 1 1 1 0 0 1 1 1]
 
 
 model = RandomForestRegressor() 
-model.score:  0.954270134228188
-r2_score:  0.954270134228188
-[1 1 1 0 1 1 0 0 0 2] 의 예측 결과:
- [1.   1.1  1.   0.   1.   1.   0.   0.   0.   1.32]
+ValueError: Classification metrics can't handle a mix of binary and continuous targets
+
+
 '''
-
-
-
 
