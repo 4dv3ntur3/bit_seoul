@@ -80,7 +80,7 @@ model3.add(Dense(1))
 
 
 # 3. 컴파일
-model3.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model3.compile(loss='mse', optimizer='adam', metrics=['mse'])
 model3.load_weights('./save/diabetes_dnn_weights.h5')
 
 

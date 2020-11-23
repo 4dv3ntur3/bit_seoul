@@ -5,19 +5,19 @@
 
 import numpy as np
 
-dataset = np.array(range(1, 10))
+# dataset = np.array(range(1, 10))
 
-#개수가 똑같아야 한다 
-dataset = np.array([range(100), range(100, 200), range(500, 600)])
+# #개수가 똑같아야 한다 
+# dataset = np.array([range(100), range(100, 200), range(500, 600)])
 
-# dataset = np.array([range(101, 201), range(311, 411), range(100)])
+# # dataset = np.array([range(101, 201), range(311, 411), range(100)])
 
-# print(dataset)
+# # print(dataset)
 
 
 
 #data에 따라 달라짐
-dataset = dataset.T
+# dataset = dataset.T
 size = 5
 
 
