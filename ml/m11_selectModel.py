@@ -24,6 +24,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 allAlgorithms = all_estimators(type_filter='classifier') #이걸 지원을 안 함
 
 for (name, algorithm) in allAlgorithms: 
+    #다운그레이드하지 않고 이 방법을 쓰면 새로운 버전? 패치돼서 볼 수 없는 버전?은 나오지 않는다
     try:
         model = algorithm() #모든 모델의 classifier 알고리즘 
                             #알고리즘 하나가 지원을 안 하는 것 
@@ -33,7 +34,8 @@ for (name, algorithm) in allAlgorithms:
         print(name, '의 정답률: ', accuracy_score(y_test, y_pred))
 
     except:
-        pass
+        print(name, "은 없는 놈!") #이러면 걸려서 출력되지 않는 것들은 이름이라도 알 수 있다
+        # pass #혹은 continue
 
 import sklearn
 print(sklearn.__version__) # 0.22.1 버전에 문제가 있어서 출력이 안 됨 -> 버전 낮춰야 함 

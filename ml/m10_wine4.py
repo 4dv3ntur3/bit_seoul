@@ -1,5 +1,7 @@
 #2020-11-23 (11일차)
+#data의 중요성
 #Y data 전처리: RandomForest
+#7등급짜리를 3등급으로 재분류함
 
 
 import pandas as pd

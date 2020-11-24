@@ -1,4 +1,5 @@
 #2020-11-23 (11일차)
+#data의 중요성
 #Y data 전처리: keras
 
 import pandas as pd
