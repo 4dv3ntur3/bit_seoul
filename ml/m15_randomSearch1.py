@@ -1,5 +1,5 @@
 #2020-11-24 (12일차)
-#randomsearch
+#randomsearch (vs. gridsearch: 성능 차이라기보단 속도 차이)
 
 
 import pandas as pd
@@ -30,6 +30,13 @@ x_train, x_test, y_train, y_test = train_test_split(
     test_size=0.2,
     random_state=44
 )
+
+
+
+
+
+
+
 
 #SVC모델에는 C, kernel, gamma라는 parameter: 알아서 공부하기
 #default만 해도 85는 나온다

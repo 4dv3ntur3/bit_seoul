@@ -37,11 +37,14 @@ x_train, x_test, y_train, y_test = train_test_split(
 #default만 해도 85는 나온다
 #kernel에 주는 값을 보니 대충 activation이랑 비슷한 개념이겠구나...
 
+
 parameters = [
     {'C': [1, 10, 100, 1000], "kernel":["linear"]}, # C*kernel = 4*1 = 4
     {'C': [1, 10, 100, 1000], "kernel":["rbf"], "gamma":[0.001, 0.0001]}, #4*1*2
     {'C': [1, 10, 100, 1000], "kernel":["sigmoid"], "gamma":[0.001, 0.0001]} #4*1*2
 ]
+
+
 #파라미터만 해도 20번, cv는 5번(n_splits) -> 20*5 = fit 100번
 
 #2. 모델
