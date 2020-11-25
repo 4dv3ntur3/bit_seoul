@@ -106,7 +106,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', 
               metrics=['accuracy']) #"mean_squared_error" (풀네임도 가능하다)
 
-model.fit(x_train, y_train, epochs=100, batch_size=1, validation_split=0.2, callbacks=[early_stopping])
+model.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping])
 
 
 

@@ -20,11 +20,11 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #1. 데이터
-iris = pd.read_csv('./data/csv/winequality-white.csv', sep=';')
+wine = pd.read_csv('./data/csv/winequality-white.csv', sep=';')
 
 
-x = iris.iloc[:, :-1]
-y = iris.iloc[:, -1:]
+x = wine.iloc[:, :-1]
+y = wine.iloc[:, -1:]
 
 
 

@@ -40,7 +40,6 @@ model.add(Dense(50))
 model.add(Dense(1)) # output y=1이므로 노드 1개
 
 
-
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['acc'])
 model.fit(x_train, y_train, epochs=100, validation_split=0.2)

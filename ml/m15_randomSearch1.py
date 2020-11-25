@@ -34,10 +34,6 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 
 
-
-
-
-
 #SVC모델에는 C, kernel, gamma라는 parameter: 알아서 공부하기
 #default만 해도 85는 나온다
 #kernel에 주는 값을 보니 대충 activation이랑 비슷한 개념이겠구나...

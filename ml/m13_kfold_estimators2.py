@@ -13,10 +13,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
-iris = pd.read_csv('./data/csv/boston_house_prices.csv', header=1, index_col=0)
+boston = pd.read_csv('./data/csv/boston_house_prices.csv', header=1, index_col=0)
 
-x = iris.iloc[:, :-1]
-y = iris.iloc[:, -1:]
+x = boston.iloc[:, :-1]
+y = boston.iloc[:, -1:]
 
 
 x_train, x_test, y_train, y_test = train_test_split(

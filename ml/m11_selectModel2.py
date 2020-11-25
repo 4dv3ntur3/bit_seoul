@@ -10,11 +10,10 @@ from sklearn.utils.testing import all_estimators #testing 빼도 돌아감
 import warnings
 
 warnings.filterwarnings('ignore')
-iris = pd.read_csv('./data/csv/boston_house_prices.csv', header=1, index_col=0)
+boston = pd.read_csv('./data/csv/boston_house_prices.csv', header=1, index_col=0)
 
-x = iris.iloc[:, :-1]
-y = iris.iloc[:, -1:]
-
+x = boston.iloc[:, :-1]
+y = boston.iloc[:, -1:]
 
 
 

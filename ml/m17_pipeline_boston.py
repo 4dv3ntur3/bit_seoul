@@ -19,10 +19,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #1. 데이터
-iris = pd.read_csv('./data/csv/boston_house_prices.csv', header=1)
+boston = pd.read_csv('./data/csv/boston_house_prices.csv', header=1)
 
-x = iris.iloc[:, :-1]
-y = iris.iloc[:, -1:] 
+x = boston.iloc[:, :-1]
+y = boston.iloc[:, -1:] 
 
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -32,12 +32,10 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 
-
 #scaling 엮기: pipeline-cv에서 과적합을 피하기 위해서 했음 
 #scaler: 4개에 사실은 2개 더 있음 (이상치 제거 등등...)
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler, MaxAbsScaler
-
 
 
 parameters = [
