@@ -25,12 +25,13 @@ print(x_train.shape)
 x = np.append(x_train, x_test, axis=0)
 print(x.shape) 
 
-x = x.reshape(x.shape[0], x.shape[1]*x.shape[2]*x.shape[3]) #(70000, 28, 28)
+x = x.reshape(x.shape[0], x.shape[1]*x.shape[2]*x.shape[3]) 
 
 
 
 pca = PCA()
 pca.fit(x) #fit만 됨
+
 
 #누적된 합을 표시하겠다
 cumsum = np.cumsum(pca.explained_variance_ratio_) #축소된 차원들의 가치의 합
@@ -51,8 +52,13 @@ x_train = x2d[:x_train_shape]
 x_test = x2d[x_train_shape:]
 
 
-x_train = x_train.astype('float32')/255.
-x_test = x_test.astype('float32')/255.
+# #스케일링
+# from sklearn.preprocessing import MinMaxScaler
+# scaler = MinMaxScaler()
+# scaler.fit(x_train)
+# x_train = scaler.transform(x_train)
+# x_test = scaler.transform(x_test)
+# 스케일링하니까 성능이 더 안 좋아짐 그래서 뺌 
 
 
 from tensorflow.keras.utils import to_categorical
@@ -69,14 +75,17 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten
 
 model = Sequential()
-model.add(Dense(200, activation='relu', input_shape=(x_train.shape[1],))) #flatten하면서 곱하고 dense에서 또 100 곱함 
-                                        #Conv2d의 activatio n default='relu'
+model.add(Dense(5000, activation='relu', input_shape=(x_train.shape[1],))) #flatten하면서 곱하고 dense에서 또 100 곱함 
+                                        #Conv2d의 activation default='relu'
                                         #LSTM의 activation default='tanh'
-model.add(Dense(150, activation='relu'))
-model.add(Dense(110, activation='relu'))
-model.add(Dense(70, activation='relu'))
+model.add(Dense(3000, activation='relu'))
+model.add(Dense(2000, activation='relu'))
+model.add(Dense(1500, activation='relu'))
+model.add(Dense(1000, activation='relu'))
+model.add(Dense(500, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(100, activation='relu'))
 model.add(Dense(50, activation='relu'))
-# model.add(Dense(30, activation='relu'))
 model.add(Dense(100, activation='softmax')) #softmax** : 2 이상 분류(다중분류)의 activation은 softmax, 2진분류는 sigmoid(여자/남자, dead/alive)
                                             #즉 softmax를 사용하려면 OneHotEncoding 해야
 
@@ -112,8 +121,18 @@ model.fit(x_train, y_train, epochs=100, batch_size=32, validation_split=0.2, cal
 loss, accuracy = model.evaluate(x_test, y_test, batch_size=32)
 
 print("======cifar100_DNN=======")
-model.summary()
+print("column: ", d)
+# model.summary()
 
 
 print("loss: ", loss)
 print("acc: ", accuracy)
+
+
+
+'''
+======cifar100_DNN=======
+column:  202
+loss:  4.6054816246032715
+acc:  0.009999999776482582
+'''

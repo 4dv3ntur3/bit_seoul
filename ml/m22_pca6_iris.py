@@ -44,11 +44,10 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 
+#스케일링
 from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler()
 scaler.fit(x_train)
-#train
-
 x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
