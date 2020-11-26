@@ -48,3 +48,5 @@ graph/
 data/
 model/
 save/
+self/m_test.py
+image_classifier/
