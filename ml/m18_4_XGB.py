@@ -37,7 +37,6 @@ model.fit(x_train, y_train)
 
 #4. 평가 및 예측
 acc = model.score(x_test, y_test)
-
 print("acc: ", acc) #0.9122807017543859
 print(model.feature_importances_) #column은 30개고, 각 column마다 중요도가 나온다
                                   #column값이 0인 것들은 필요 없는 column 
