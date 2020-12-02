@@ -23,7 +23,7 @@ max_depth = 5
 n_jobs = -1 #CPU를 다 쓸 것인지 말 것인지
 
 
-#score로 성능 기뵤
+#score로 성능 비교
 
 datasets = load_boston()
 
