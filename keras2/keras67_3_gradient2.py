@@ -1,5 +1,5 @@
 #2020-12-02
-#gradient 
+#learning rate
 
 import numpy as np
 import matplotlib.pyplot as plt
