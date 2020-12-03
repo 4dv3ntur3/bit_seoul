@@ -1,4 +1,4 @@
-#2020-12-02
+#2020-12-02 (18일차)
 #learning rate 
 #gradient descent (경사하강법)
 
@@ -60,6 +60,8 @@ y_pred = model.predict([11])
 # 따라서 처음부터 accuracy라는 지표 자체가 틀렸다
 
 print("loss : ", loss, "\t결과물: ", y_pred)
+
+
 
 '''
 

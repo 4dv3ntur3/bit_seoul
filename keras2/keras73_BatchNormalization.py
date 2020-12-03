@@ -1,4 +1,4 @@
-#2020-12-02
+#2020-12-02 (18일차)
 #kernel_regularizer
 #bias_regularizer
 #batch_normalization
@@ -120,6 +120,13 @@ print("정답: ", y_answer)
 
 
 
+'''
+=======mnist_CNN=======
+loss:  0.11501652747392654
+acc:  0.9843999743461609
+예측값:  [4 0 9 1 1 2 4 3 2 7]
+정답:  [4 0 9 1 1 2 4 3 2 7]
+'''
 
 
 
@@ -128,7 +135,8 @@ print("정답: ", y_answer)
 
 
 
-
+#경사 소실과 경사 폭주
+#gradient vanishing & gradient exploding
 
 
 

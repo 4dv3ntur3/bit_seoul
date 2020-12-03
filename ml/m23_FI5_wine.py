@@ -19,10 +19,12 @@ from xgboost import XGBClassifier, XGBRegressor
 from sklearn.model_selection import train_test_split
 
 wine=pd.read_csv('./data/csv/winequality-white.csv', sep=';', header=0)
-y=wine['quality']
-x=wine.drop('quality', axis=1)
+y=wine['quality'].values
+x=wine.drop('quality', axis=1).values #이후에 값 분포에 따라 재편성하면 acc 더 오른다 
 
-print(x.shape) #(4898, 11)
+
+
+print("x.shape: ", x.shape, "x.type: ", type(x)) #(4898, 11)
 print(y.shape) #(4898,)
 
 
@@ -57,23 +59,32 @@ print(model.feature_importances_) #column은 30개고, 각 column마다 중요�
                                   #따라서 0이 아닌 column만 모아서 돌려도 결과는 동일하다
                                   #단, 조건: accuracy_score를 신뢰할 수 있어야 함
 
-
+#4-2. FI 적용
 fi = model.feature_importances_
-indices = np.argsort(fi)[::-1] #거꾸로 정렬(즉, 제일 작은 값이 뒤에 와 있다)
-print(indices)
+indices = np.argsort(fi)[::-1]
 
+print("FI 내림차순 정렬: ", indices)
 
-# slicing = 0.7*int(len(fi))
-# print(slicing)
+del_index = []
+for i in indices:
+    if i < int(0.7*len(fi)):
+        del_index.append(i)
 
+print("삭제할 columns: ", del_index)
 
-x_train = x_train[:, indices[:8]]
-x_test = x_test[:, indices[:8]]
+#pandas에는 slicing 기능 없어서 numpy로 바꿔 준 후 진행해야 한다 
+#TypeError: '(slice(None, None, None), [1, 5, 3, 2, 0, 4, 6])' is an invalid key
+x_train = x_train[:, del_index]
+x_test = x_test[:, del_index]
+
 
 
 model.fit(x_train, y_train)
 acc = model.score(x_test, y_test)
-print("acc: ", acc)
+
+
+print("acc: ", acc) 
+
 
 
 # feature importance
@@ -96,7 +107,13 @@ print("acc: ", acc)
 
 
 '''
+1. default 
 acc:  0.6326530612244898
 [0.06921455 0.12053432 0.07043804 0.08099263 0.06764299 0.09611965
  0.06570112 0.06899329 0.06871986 0.06973901 0.2219046 ]
+
+2. 하위 30% 제거
+FI 내림차순 정렬:  [10  1  5  3  7  0  9  2  6  4  8]
+삭제할 columns:  [1, 5, 3, 0, 2, 6, 4]
+acc:  0.6061224489795919
  '''

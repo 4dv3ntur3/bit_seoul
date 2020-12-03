@@ -31,16 +31,16 @@ print(x.shape) #(150, 4)
 print(y.shape) #(150,)
 
 
-x = x[:, 1:]
+#무식한 방법 
+# x = x[:, 1:]
+
+
+
 
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, y, train_size=0.8, random_state=66 #or cancer.data, cancer.target
 )
-
-
-
-
 
 
 
@@ -86,7 +86,7 @@ print(model.feature_importances_) #column은 30개고, 각 column마다 중요�
 
 
 '''
-default
+1. default
 ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
 (150, 4)
 (150,)
@@ -95,7 +95,7 @@ acc:  0.9
 
 
 
-feature_importance 제일 적은 0번 feature out
+2. feature_importance 제일 적은 0번 feature out (column이 적어서 30퍼센트 out 의미 없음)
 ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']
 (150, 4)
 (150,)

@@ -1,5 +1,7 @@
-#2020-12-02
+#2020-12-02 (18일차)
 #learning rate & weight
+
+
 
 weight = 0.5
 input = 0.5
@@ -9,6 +11,7 @@ lr = 0.001 #0.1 / 1 / 0.001 / 10 / 100 = optimizer
 #10이나 100 주면 거꾸로 줄어든다 ;; 
 #activation이 빠져 있긴 하지만 weight 고정인 상태
 #한 layer에서 이 역할 
+
 
 for iteration in range(1101):
 

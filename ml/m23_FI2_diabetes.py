@@ -69,14 +69,20 @@ indices = np.argsort(fi)[::-1] #거꾸로 정렬(즉, 제일 작은 값이 뒤�
 
 # print(indices)
 
-# del_index = []
-# for i in indices:
-#     if i < 0.7*int(len(fi)): #하위 30퍼센트
-#         del_index.append()
+print("FI 내림차순 정렬: ", indices)
 
 
-x_train = x_train[:, indices[:6]]
-x_test = x_test[:, indices[:6]]
+del_index = []
+for i in indices:
+    if i < int(0.7*(len(fi))): #하위 30퍼센트
+        del_index.append(i)
+
+print("삭제할 column index: ", del_index)
+
+
+
+x_train = x_train[:, del_index]
+x_test = x_test[:, del_index]
 
 # print(x)
 
@@ -91,11 +97,6 @@ acc = model.score(x_test, y_test)
 
 
 print("acc: ", acc) 
-
-
-
-
-
 
 
 #feature importance
@@ -123,12 +124,14 @@ print("acc: ", acc)
 
 
 '''
-default
+1. default
 acc:  0.31163770597265394
 [0.03951401 0.08722725 0.18159387 0.08551976 0.04845208 0.06130722
  0.05748899 0.0561045  0.32311246 0.05967987]
 
 
-하위 30퍼센트 제거
-acc:  0.2568870532760785
+2. 하위 30퍼센트 제거 
+FI 내림차순 정렬:  [8 2 1 3 5 9 6 7 4 0]
+삭제할 column index:  [2, 1, 3, 5, 6, 4, 0]
+acc:  0.1900052566244862
 '''

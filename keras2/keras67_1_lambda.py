@@ -1,4 +1,4 @@
-#2020-12-02
+#2020-12-02 (18일차)
 #lambda
 
 gradient = lambda x: 2*x -4

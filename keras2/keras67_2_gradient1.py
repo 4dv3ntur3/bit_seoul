@@ -1,4 +1,4 @@
-#2020-12-02
+#2020-12-02 (18일차)
 #gradient 
 
 import numpy as np

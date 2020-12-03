@@ -1,4 +1,4 @@
-#2020-12-02
+#2020-12-02 (18일차)
 #learning rate
 
 import numpy as np

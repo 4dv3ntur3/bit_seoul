@@ -24,8 +24,6 @@ np.save('./data/mnist_y_test.npy', arr=y_test)
 
 
 
-
-
 #전처리: OneHotEncoding 대상은 Y
 from tensorflow.keras.utils import to_categorical
 y_train = to_categorical(y_train)

@@ -66,13 +66,13 @@ def build_model(drop=0.5, optimizer=Adam, lr=0.001, nodes=100, activation='relu'
 # activation
 
 def create_hyperparameters():
-    batches = [10, 50, 100]
-    optimizers= [Adam, Nadam, SGD] #learning_rate 
-    dropout = np.linspace(0.1, 0.5, 5).tolist() #numpy.linspace 함수는 지정한 구간을 균일한 간격으로 나누는 숫자들을 반환
-    epochs = [10, 50, 100]
-    lr = [0.001, 0.002, 0.003]
-    activation = ['relu', 'selu', 'elu']
-    nodes = [512, 256, 128]
+    batches = [2000]
+    optimizers= [Adam] #learning_rate 
+    dropout = [0.5] #numpy.linspace 함수는 지정한 구간을 균일한 간격으로 나누는 숫자들을 반환
+    epochs = [50]
+    lr = [0.001]
+    activation = ['relu']
+    # nodes = []
 
     return {
            "epochs": epochs,
@@ -80,7 +80,6 @@ def create_hyperparameters():
            "optimizer": optimizers, 
            "lr": lr,
            "drop": dropout,
-           "nodes": nodes,
            "activation": activation
            }
 
@@ -97,11 +96,11 @@ start = datetime.datetime.now()
 # -> keras를 사이킷런으로 감싸겠다
 #keras -> 사이킷런에 넣을 수 있게 wrapping -> GridSearchCV / RandomizedSearchCV 사용 가능
 from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
-model = KerasClassifier(build_fn=build_model, verbose=1)
+search = KerasClassifier(build_fn=build_model, verbose=1)
 
-from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+# from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 # search = GridSearchCV(model, hyperparameters, cv=3)
-search = RandomizedSearchCV(model, hyperparameters, cv=3)
+# search = RandomizedSearchCV(model, hyperparameters, cv=3)
 
 search.fit(x_train, y_train)
 
