@@ -50,3 +50,6 @@ model/
 save/
 self/m_test.py
 image_classifier/
+checkpoint
+model.data-00000-of-00001
+model.index

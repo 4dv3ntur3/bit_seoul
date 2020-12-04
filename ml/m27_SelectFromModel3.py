@@ -112,6 +112,9 @@ for thresh in thresholds:
 '''
 1) default
 
+  File "d:\Study\ml\m27_SelectFromModel3.py", line 83, in <module>
+    thresholds = np.sort(model.feature_importances_)
+AttributeError: 'RandomizedSearchCV' object has no attribute 'feature_importances_'
 
-
+에ㅓㄹ 해결하기 
 '''
