@@ -103,12 +103,21 @@ maxpooling에서 끝나 있음. output까지 연결?
 
 #VGG 모델이 함수형인지 sequential인지 
 
+from tensorflow.keras.layers import BatchNormalization, Dropout, Activation
+
 model = Sequential()
 model.add(vgg16)
 model.add(Flatten())
+model.add(Dense(256))
+# model.add(BatchNormalization()) #가중치 수 8개 됨 -> 가중치 연산을 하는구나 (연산돼서 넘어온 값을...? )
+# model.add(Dropout(0.2)) #얜 그대로 6개. 얜 가중치 연산을 안 하는구나 
+model.add(Activation('relu')) #얘도 그대로 6개. 가중치 연산 x 
+model.add(Dense(256))
 model.add(Dense(10, activation='softmax'))
 
 model.summary()
+print("동결한 후 훈련되는 가중치의 수: ", len(model.trainable_weights)) #model.trainable=False 돼 있으면 안 나옴 #32 (LAYER 16 * (가중치 1개 + BIAS 1개) = 32)
+# print((model.trainable_weights)) 
 
 '''
 Model: "sequential"
@@ -119,14 +128,37 @@ vgg16 (Functional)           (None, 1, 1, 512)         14714688
 _________________________________________________________________
 flatten (Flatten)            (None, 512)               0
 _________________________________________________________________
-dense (Dense)                (None, 10)                5130
+dense (Dense)                (None, 256)               131328
+_________________________________________________________________
+dense_1 (Dense)              (None, 10)                2570
 =================================================================
-Total params: 14,719,818
-Trainable params: 5,130
+Total params: 14,848,586
+Trainable params: 133,898
 Non-trainable params: 14,714,688
 _________________________________________________________________
 trainable params: 5130 ??? 
 flatten 512 + 1 = 513    -> output 10 -> 513 * 10 = 5130 
 위에서 flatten해서 던져 주고 출력 model 10이니까 513 * 10 
 
+동결한 후 훈련되는 가중치의 수:  4 (layer 2개 + (weight+bias))
+'''
+
+import pandas as pd
+pd.set_option('max_colwidth', -1)
+layers = [(layer, layer.name, layer.trainable) for layer in model.layers]
+aaa = pd.DataFrame(layers, columns=['Layer Type', 'Layer Name', 'Layer Trainable'])
+
+
+
+# print(aaa.loc[:])
+print(aaa)
+
+'''
+                                                                            Layer Type  Layer Name  Layer Trainable
+0  <tensorflow.python.keras.engine.functional.Functional object at 0x0000021790312CA0>  vgg16       False
+1  <tensorflow.python.keras.layers.core.Flatten object at 0x0000021790320B80>           flatten     True
+2  <tensorflow.python.keras.layers.core.Dense object at 0x000002179033E790>             dense       True
+3  <tensorflow.python.keras.layers.core.Activation object at 0x000002179035EEB0>        activation  True
+4  <tensorflow.python.keras.layers.core.Dense object at 0x000002179035E190>             dense_1     True
+5  <tensorflow.python.keras.layers.core.Dense object at 0x000002179036F490>             dense_2     True
 '''

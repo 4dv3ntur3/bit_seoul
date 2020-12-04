@@ -112,7 +112,7 @@ model.compile(loss='categorical_crossentropy',
               metrics=['accuracy']) #"mean_squared_error" (풀네임도 가능하다)
 
 model.fit(x_train, y_train, epochs=30, batch_size=32, verbose=1,
-          validation_split=0.2, callbacks=[es, ck])
+          validation_split=0.2, callbacks=[es, ck, reduce_lr])
 
 
 
