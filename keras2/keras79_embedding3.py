@@ -1,6 +1,6 @@
 #2020-12-04
 #embedding(벡터화)
-#LSTM
+#flatten
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 import numpy as np
@@ -39,28 +39,21 @@ word_size = len(token.word_index) + 1 #padding
 
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Embedding, LSTM, Flatten, Conv1D
+from tensorflow.keras.layers import Dense, Embedding, LSTM, Flatten
 
 
 model = Sequential()
 
 model.add(Embedding(25, 10, input_length=5)) #12, 5였음(명시해 줄 때는 column 개수 같아야)
 # model.add(Embedding(25, 10)) #25, 9도 오케이 25, 8도 오케이... 
-
-# model.add(LSTM(32))
-model.add(Conv1D(32, 2))
-model.add(Flatten())
+model.add(Flatten()) #먹힘
 model.add(Dense(1, activation='sigmoid'))
 
 model.summary()
 
-#input_length 없이 flatten -> dense? x
-#input_length + flatten -> dense o 
 
 
-#embedding은 처음에 output node 개수 아님#
-#embedding = one hot encoding을 벡터화
-#단어 사전의 수, output node 개수,  
+
 
 #input_length 다른 걸로 해도 돌아가긴 함 
 #WARNING:tensorflow:Model was constructed with shape (None, 3) for input Tensor("embedding_input:0", shape=(None, 3), dtype=float32), but it was called on an input with incompatible shape (None, 5).
@@ -76,7 +69,7 @@ model.summary()
 
 # 원핫인코딩이었다면 25, 25 -> 임베딩 레이어로 하면 25, 10으로 벡터화(10은 그냥 임의로 해도 됨)
 # 3차원 input -> LSTM 가능
-
+# model.add(LSTM(32))
 
 model.compile(optimizer='adam', 
               loss='binary_crossentropy', 

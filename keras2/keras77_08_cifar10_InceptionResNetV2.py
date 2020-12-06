@@ -28,10 +28,14 @@ t.trainable=False #학습시키지 않겠다 이미지넷 가져다가 그대로
 model = Sequential()
 model.add(t)
 model.add(Flatten())
+model.add(Dense(256))
+model.add(BatchNormalization())
+model.add(Dropout(0.2))
+model.add(Activation('relu'))
+model.add(Dense(256))
 model.add(Dense(10, activation='softmax'))
 
-
-model.compile(optimizer='Adam', loss=)
+model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['acc'])
 model.fit(x_train, y_train, epochs=100, batch_size=512)
 
 
@@ -42,3 +46,7 @@ print("==========cifar10_InceptionResNetV2==========")
 model.summary()
 print("loss: ", loss)
 print("acc: ", accuracy)
+
+'''
+ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+'''
