@@ -25,7 +25,7 @@ t = InceptionResNetV2(weights='imagenet', include_top=False, input_shape=(x_trai
 t.trainable=False #학습시키지 않겠다 이미지넷 가져다가 그대로 쓰겠다 
 # model.trainable=True
 
-model = Sequential()
+model = Sequential() 
 model.add(t)
 model.add(Flatten())
 model.add(Dense(256))

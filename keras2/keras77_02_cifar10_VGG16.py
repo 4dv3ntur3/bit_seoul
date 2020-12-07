@@ -27,7 +27,7 @@ vgg16 = VGG16(weights='imagenet', include_top=False, input_shape=(x_train.shape[
 vgg16.trainable=False #학습시키지 않겠다 이미지넷 가져다가 그대로 쓰겠다 
 # model.trainable=True
 
-model = Sequential()
+model = Sequential() #함수형으로도 엮을 수 있다 
 model.add(vgg16)
 model.add(Flatten())
 model.add(Dense(256))

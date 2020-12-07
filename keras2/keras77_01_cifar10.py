@@ -35,7 +35,7 @@ y_answer = y_train[:10]
 
 
 #2. 모델
-model = Sequential()
+model = Sequential() 
 model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=(32, 32, 3))) #padding 주의!
 model.add(Conv2D(32, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=2)) #pool_size default=2

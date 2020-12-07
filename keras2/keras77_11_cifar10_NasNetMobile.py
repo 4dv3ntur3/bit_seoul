@@ -53,6 +53,7 @@ print("acc: ", accuracy)
 
 
 '''
+NasNetMobile
 ValueError: When setting `include_top=True` and loading `imagenet` weights, `input_shape` should be (224, 224, 3).
 
 ==========cifar10_DenseNet201==========
