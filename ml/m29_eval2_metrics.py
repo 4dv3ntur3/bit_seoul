@@ -1,7 +1,6 @@
 #2020-12-07
-#iris: 다중분류
-#eval_metric: error 
-#use merror or mlogloss for multi-class classification
+#metrics에 여러 개 넣을 수 있다: iris + mlogloss, merror
+#넣으면 metrics별로 나온다 
 
 import numpy as np
 
@@ -44,7 +43,7 @@ model = XGBClassifier(n_estimators=1000,
 #3. 훈련
 model.fit(x_train, y_train, verbose=1, #다 보여 준다(0 / 1 , False / True)
 
-    eval_metric='mlogloss', #keras의 metrics와 동일. RMSE를 쓰겠다. 
+    eval_metric=['mlogloss','merror'], #keras의 metrics와 동일. RMSE를 쓰겠다. 
     # eval_set=[(x_test, y_test)] #평가는 x_test, y_test & 지표는 RMSE(MSE에 루트) 
     eval_set=[(x_train, y_train), (x_test, y_test)] #metrics는 어차피 훈련에 반영되지 않으니까 훈련 set에 대해서도 metric 볼 수 있다 
 

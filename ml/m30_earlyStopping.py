@@ -1,16 +1,15 @@
 #2020-12-07
-#iris: 다중분류
-#eval_metric: error 
-#use merror or mlogloss for multi-class classification
+#early stopping
+
 
 import numpy as np
 
 from xgboost import XGBClassifier, XGBRegressor
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 
 from sklearn.feature_selection import SelectFromModel
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import r2_score
 
 
 #1. 데이터
@@ -19,7 +18,7 @@ from sklearn.metrics import accuracy_score
 # x = dataset.data
 # y = dataset.target
 
-x, y = load_iris(return_X_y=True)
+x, y = load_boston(return_X_y=True)
 
 x_train, x_test, y_train, y_test = train_test_split(
     x, 
@@ -35,18 +34,18 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #estimator 없이 
 #default가 몇 갤까? -> 100번 돈다 : n_estimator default 100
-model = XGBClassifier(n_estimators=1000, 
-                      learning_rate=0.002, 
-                      max_depth=20,
-                      gamma=0.001)
+model = XGBRegressor(n_estimators=2000, learning_rate=0.01, max_depth=5)
 
 
 #3. 훈련
 model.fit(x_train, y_train, verbose=1, #다 보여 준다(0 / 1 , False / True)
 
-    eval_metric='mlogloss', #keras의 metrics와 동일. RMSE를 쓰겠다. 
+    #loss로 해도 됨 
+    eval_metric=['rmse'], #keras의 metrics와 동일. RMSE를 쓰겠다. 
     # eval_set=[(x_test, y_test)] #평가는 x_test, y_test & 지표는 RMSE(MSE에 루트) 
-    eval_set=[(x_train, y_train), (x_test, y_test)] #metrics는 어차피 훈련에 반영되지 않으니까 훈련 set에 대해서도 metric 볼 수 있다 
+    eval_set=[(x_train, y_train), (x_test, y_test)], #metrics는 어차피 훈련에 반영되지 않으니까 훈련 set에 대해서도 metric 볼 수 있다 
+    
+    early_stopping_rounds=20 #rmse 기준 & validation_1이 기준 
 
     #출력은 n_estimators만큼
 )
@@ -62,18 +61,20 @@ model.fit(x_train, y_train, verbose=1, #다 보여 준다(0 / 1 , False / True)
 
 #평가 결과
 #evalate와 비슷하지만 결과치가 출력되기 때문에 조금 난해하게 보인다 
-results = model.evals_result()
-print("eval's results: ", results)
-# print(type(results)) #<class 'dict'>
+# results = model.evals_result()
+# print("eval's results: ", results)
 
 y_pred = model.predict(x_test)
 
-acc = accuracy_score(y_pred, y_test)
-print("acc: ", acc)
+r2 = r2_score(y_pred, y_test)
+print("r2 score: ", r2)
+
+
+
 
 '''
-merror / mlogloss
-acc:  0.8666666666666667
+Stopping. Best iteration:
+[369]   validation_0-rmse:1.58722       validation_1-rmse:2.40147
 
-
+r2 score:  0.9119588706262183
 '''

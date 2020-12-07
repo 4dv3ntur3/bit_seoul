@@ -35,13 +35,13 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 #estimator 없이 
 #default가 몇 갤까? -> 100번 돈다 : n_estimator default 100
-model = XGBClassifier(n_estimators=1200, learning_rate=0.1)
+model = XGBClassifier(n_estimators=500, learning_rate=0.1, max_depth=20)
 
 
 #3. 훈련
 model.fit(x_train, y_train, verbose=1, #다 보여 준다(0 / 1 , False / True)
 
-    eval_metric='logloss', #keras의 metrics와 동일. RMSE를 쓰겠다. 
+    eval_metric='error', #keras의 metrics와 동일. RMSE를 쓰겠다. 
     # eval_set=[(x_test, y_test)] #평가는 x_test, y_test & 지표는 RMSE(MSE에 루트) 
     eval_set=[(x_train, y_train), (x_test, y_test)] #metrics는 어차피 훈련에 반영되지 않으니까 훈련 set에 대해서도 metric 볼 수 있다 
 
@@ -64,11 +64,14 @@ print("eval's results: ", results)
 
 y_pred = model.predict(x_test)
 
+score = model.score(x_test, y_test)
 acc = accuracy_score(y_pred, y_test)
+
 print("acc: ", acc)
+print("score: ", score)
 
 
 '''
 error / auc / logloss
-acc:  0.956140350877193
+acc:  0.9649122807017544
 '''
