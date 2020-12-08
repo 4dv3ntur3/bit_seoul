@@ -41,7 +41,6 @@ Thumbs.db
 *.h5
 *.hdf5
 
-
 # directory#
 ##########################
 graph/
@@ -53,3 +52,9 @@ image_classifier/
 checkpoint
 model.data-00000-of-00001
 model.index
+
+
+# pycache #
+######################
+*.pyc
+
