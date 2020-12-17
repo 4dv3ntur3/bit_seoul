@@ -1,6 +1,7 @@
 #2020-12-16
-#Auto Encoder + MNIST
-#함수 정의해서 모델 구성 
+#DAE
+#a02_ae.py 복사 + 딥하게 구성 (layer 추가)
+#어떻게 보면 레이어를 통과할 때마다 값이 변하니까 오히려 hidden layer 추가 안 하는 게 값이 더 잘 나올 수도 있다 
 
 import numpy as np
 from tensorflow.keras.datasets import mnist
@@ -31,6 +32,12 @@ def autoencoder(hidden_layer_size):
                     input_shape=(784,),
                     activation='relu'))
 
+    model.add(Dense(256, activation='relu'))
+    model.add(Dense(128, activation='relu'))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(300, activation='relu'))
+    model.add(Dense(512, activation='relu'))
+
     model.add(Dense(units=784, activation='sigmoid'))
     return model
 
@@ -46,11 +53,12 @@ model.compile(optimizer='adam', loss='mse', metrics=['acc']) # acc가 0.01 ㅎ�
 model.fit(x_train, x_train, epochs=10, batch_size=256,
                 validation_split=0.2)
 
-output = model.predict(x_test) #decoded_img
+output = model.predict(x_test)
 
 
-# #x_test를 넣었을 때 x_test가 정상적으로 나오면 잘된 것
-# #차원축소 후 증폭하는 개념 
+#x_test를 넣었을 때 x_test가 정상적으로 나오면 잘된 것
+#차원축소 후 증폭하는 개념 
+decoded_img = model.predict(x_test)
 
 
 

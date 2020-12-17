@@ -10,6 +10,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, MaxPooling2D, Conv2D, Dropout
 import numpy as np
 
+
 #이미지에 대한 생성 옵션 정하기: 튜닝 가능
 train_datagen = ImageDataGenerator(rescale=1./255, #정규화
                                     horizontal_flip=True, #수평
@@ -55,7 +56,6 @@ model.add(Dropout(0.2))
 model.add(MaxPooling2D(pool_size=2))
 model.add(Flatten())
 model.add(Dense(1, activation='sigmoid'))
-
 
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])

@@ -1,6 +1,9 @@
 #2020-12-16
-#Auto Encoder + MNIST
-#함수 정의해서 모델 구성 
+#CAE(Convolusion...)
+#CNN + deep하게 
+#Encoder 부분을 CNN layer 2~개로 구성할 것 
+#padding='same' vs padding='valid'
+
 
 import numpy as np
 from tensorflow.keras.datasets import mnist
@@ -10,14 +13,19 @@ from tensorflow.keras.datasets import mnist
 
 
 # 두 방법 모두 상관없음 
-x_train = x_train.reshape(60000, 784).astype('float32')/255
-x_test = x_test.reshape(10000, 784)/255.
+x_train_input = x_train.reshape(60000, 28, 28, 1).astype('float32')/255
+x_train_output = x_train.reshape(60000, 784).astype('float32')/255
+
+x_test_input = x_test.reshape(10000, 28, 28, 1)/255.
+x_test_output = x_test.reshape(10000, 784)/255.
+
+
 
 # print(x_train[0])
 # print(x_test[0])
 
 from tensorflow.keras.models import Sequential, Model
-from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.layers import Dense, Input, Conv2D, Flatten
 
 #함수형 sequential
 #CNN output: filter
@@ -27,15 +35,21 @@ from tensorflow.keras.layers import Dense, Input
 def autoencoder(hidden_layer_size):
 
     model = Sequential()
-    model.add(Dense(units=hidden_layer_size, 
-                    input_shape=(784,),
-                    activation='relu'))
+
+    model.add(Conv2D(filters=hidden_layer_size, kernel_size=(2, 2),input_shape=(28, 28, 1), activation='relu', padding='same'))
+
+    model.add(Conv2D(256, kernel_size=(2, 2), activation='relu', padding='same'))
+    model.add(Conv2D(128, kernel_size=(2, 2), activation='relu', padding='same'))
+
+    model.add(Flatten())
 
     model.add(Dense(units=784, activation='sigmoid'))
+
     return model
 
 #PCA에서 MNIST 할 때 0.95이상일 때 column 154였음 
 model = autoencoder(hidden_layer_size=154) #784 -> 154 -> 784
+
 
 #비교하기
 # model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
@@ -43,14 +57,15 @@ model.compile(optimizer='adam', loss='mse', metrics=['acc']) # acc가 0.01 ㅎ�
 
 
 #x로 x 확인
-model.fit(x_train, x_train, epochs=10, batch_size=256,
+model.fit(x_train_input, x_train_output, epochs=10, batch_size=100,
                 validation_split=0.2)
 
-output = model.predict(x_test) #decoded_img
+output = model.predict(x_test_input)
 
 
-# #x_test를 넣었을 때 x_test가 정상적으로 나오면 잘된 것
-# #차원축소 후 증폭하는 개념 
+#x_test를 넣었을 때 x_test가 정상적으로 나오면 잘된 것
+#차원축소 후 증폭하는 개념 
+decoded_img = model.predict(x_test_input)
 
 
 

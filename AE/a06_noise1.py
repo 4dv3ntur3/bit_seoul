@@ -1,6 +1,5 @@
 #2020-12-16
-#Auto Encoder + MNIST
-#함수 정의해서 모델 구성 
+#기미 주근깨를 제거하려면 기미 주근깨가 먼저 있어야지... -> noise 추가
 
 import numpy as np
 from tensorflow.keras.datasets import mnist
@@ -13,15 +12,21 @@ from tensorflow.keras.datasets import mnist
 x_train = x_train.reshape(60000, 784).astype('float32')/255
 x_test = x_test.reshape(10000, 784)/255.
 
+# 전처리했으므로 0~1사이의 데이터에 random.normal로 뽑은 숫자 더해준다 -> 점이 찍힘 
+# 그런데 1.0 넘어간 애들이 생기는데, 걔네를 출력하면 제대로 나올까? imshow는 0~1사이만 나오는데  
+
 # print(x_train[0])
 # print(x_test[0])
 
+
+x_train_noised = x_train + np.random.normal(0, 0.1, size=x_train.shape) #0에서 0.1 사이를 x_train의 값에 더해준다 
+x_test_noised = x_test + np.random.normal(0, 0.1, size=x_test.shape)
+x_train_noised = np.clip(x_train_noised, a_min=0, a_max=1)
+x_test_noised = np.clip(x_test_noised, a_min=0, a_max=1) 
+
+
 from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.layers import Dense, Input
-
-#함수형 sequential
-#CNN output: filter
-#LSTM layer output naming:
 
 
 def autoencoder(hidden_layer_size):
@@ -42,23 +47,17 @@ model = autoencoder(hidden_layer_size=154) #784 -> 154 -> 784
 model.compile(optimizer='adam', loss='mse', metrics=['acc']) # acc가 0.01 ㅎㅎ... 믿을 놈은 loss뿐 
 
 
-#x로 x 확인
-model.fit(x_train, x_train, epochs=10, batch_size=256,
+model.fit(x_train_noised, x_train, epochs=10, batch_size=256,
                 validation_split=0.2)
 
-output = model.predict(x_test) #decoded_img
-
-
-# #x_test를 넣었을 때 x_test가 정상적으로 나오면 잘된 것
-# #차원축소 후 증폭하는 개념 
-
+output = model.predict(x_test_noised)
 
 
 # 그림 확인
 import matplotlib.pyplot as plt
 import random
 
-fig, ((ax1, ax2, ax3, ax4, ax5), (ax6, ax7, ax8, ax9, ax10)) = plt.subplots(2, 5, figsize=(20, 7)) # \로 이어 주거나 걍 한 줄에 쓰거나 
+fig, ((ax1, ax2, ax3, ax4, ax5), (ax6, ax7, ax8, ax9, ax10), (ax11, ax12, ax13, ax14, ax15)) = plt.subplots(3, 5, figsize=(20, 7)) # \로 이어 주거나 걍 한 줄에 쓰거나 
 
 # 이미지 다섯 개 무작위 선택
 random_images = random.sample(range(output.shape[0]), 5)
@@ -74,9 +73,20 @@ for i, ax in enumerate([ax1, ax2, ax3, ax4, ax5]):
     ax.set_xticks([])
     ax.set_yticks([])
 
-
-# AE가 출력한 이미지를 아래에 그린다
+# noise 추가한 이미지를 그 다음에 
 for i, ax in enumerate([ax6, ax7, ax8, ax9, ax10]):
+    ax.imshow(x_test_noised[random_images[i]].reshape(28, 28), cmap='gray')
+
+    if i == 0:
+        ax.set_ylabel('INPUT_NOISED', size=20) #글씨 사이즈 
+
+    ax.grid(False)
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+
+# AE가 출력한 이미지를 맨 아래에 그린다
+for i, ax in enumerate([ax11, ax12, ax13, ax14, ax15]):
     ax.imshow(output[random_images[i]].reshape(28, 28), cmap='gray')
 
     if i == 0:
@@ -87,3 +97,6 @@ for i, ax in enumerate([ax6, ax7, ax8, ax9, ax10]):
     ax.set_yticks([])
 
 plt.show()
+
+
+# 추가한 noise가 없어져서 나오는데, 수치가 높지 않아서 제거된 것임(아니면 너무 높든가)
