@@ -57,6 +57,10 @@ model.index
 # pycache #
 ######################
 *.pyc
+*.json
+*.csv
+*.npy 
+*.npz 
 
 tf_cert_practice/.idea/.gitignore
 tf_cert_practice/.idea/misc.xml
@@ -64,15 +68,6 @@ tf_cert_practice/.idea/modules.xml
 tf_cert_practice/.idea/tf_cert_practice.iml
 tf_cert_practice/.idea/vcs.xml
 tf_cert_practice/.idea/inspectionProfiles/profiles_settings.xml
-tf_cert_practice/Category1/starter_answer.py
-tf_cert_practice/Category1/starter_test.py
-tf_cert_practice/Category1/starter.py
-tf_cert_practice/Category2/starter_answer.py
-tf_cert_practice/Category2/starter_test.py
-tf_cert_practice/Category2/starter.py
-tf_cert_practice/Category3/starter_answer.py
-tf_cert_practice/Category3/starter_test.py
-tf_cert_practice/Category3/starter.py
 tf_cert_practice/Category3/tmp/rps/paper/paper01-000.png
 tf_cert_practice/Category3/tmp/rps/paper/paper01-001.png
 tf_cert_practice/Category3/tmp/rps/paper/paper01-002.png
@@ -2040,6 +2035,13 @@ tf_cert_practice/Category3/tmp/rps/scissors/scissors03-043.png
 tf_cert_practice/Category3/tmp/rps/scissors/scissors03-044.png
 tf_cert_practice/Category3/tmp/rps/scissors/scissors03-045.png
 tf_cert_practice/Category3/tmp/rps/scissors/scissors03-046.png
+
+.idea/.gitignore
+.idea/misc.xml
+.idea/modules.xml
+.idea/Study.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
 tf_cert_practice/Category3/tmp/rps/scissors/scissors03-047.png
 tf_cert_practice/Category3/tmp/rps/scissors/scissors03-048.png
 tf_cert_practice/Category3/tmp/rps/scissors/scissors03-049.png
@@ -2593,15 +2595,3 @@ tf_cert_practice/Category3/tmp/rps/scissors/testscissors03-116.png
 tf_cert_practice/Category3/tmp/rps/scissors/testscissors03-117.png
 tf_cert_practice/Category3/tmp/rps/scissors/testscissors03-118.png
 tf_cert_practice/Category3/tmp/rps/scissors/testscissors03-119.png
-tf_cert_practice/Category4/sarcasm.json
-tf_cert_practice/Category4/starter_test.py
-tf_cert_practice/Category4/starter.py
-tf_cert_practice/Category5/starter_test.py
-tf_cert_practice/Category5/starter.py
-tf_cert_practice/Category5/sunspots.csv
-.idea/.gitignore
-.idea/misc.xml
-.idea/modules.xml
-.idea/Study.iml
-.idea/vcs.xml
-.idea/inspectionProfiles/profiles_settings.xml
